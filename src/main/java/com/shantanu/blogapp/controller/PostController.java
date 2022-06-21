@@ -9,9 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-//@RequestMapping("/post")
+@RequestMapping("/post")
 public class PostController {
 
 	@Autowired
@@ -29,6 +30,6 @@ public class PostController {
 	@PostMapping("/save")
 	public String savePost(@ModelAttribute("post") Post post) {
 		postService.savePost(post);
-		return "redirect:/newPost";
+		return "redirect:/post/newPost";
 	}
 }
