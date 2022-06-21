@@ -1,6 +1,7 @@
 package com.shantanu.blogapp.controller;
 
 import com.shantanu.blogapp.entity.Post;
+import com.shantanu.blogapp.entity.Tag;
 import com.shantanu.blogapp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,9 @@ public class PostController {
 	@GetMapping("/newPost")
 	public String showNewPostPage(Model model) {
 		Post post = new Post();
+		Tag tag = new Tag();
 		model.addAttribute("post", post);
+		model.addAttribute("tag", tag);
 		return "newpost";
 	}
 
