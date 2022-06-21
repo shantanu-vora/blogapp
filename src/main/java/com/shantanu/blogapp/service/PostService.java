@@ -1,5 +1,7 @@
 package com.shantanu.blogapp.service;
 
-public interface PostService {
+import com.shantanu.blogapp.entity.Post;
 
+public interface PostService {
+	void savePost(Post post);
 }
