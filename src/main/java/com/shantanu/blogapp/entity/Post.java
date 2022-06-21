@@ -27,14 +27,22 @@ public class Post {
 	@Column(name = "published_at")
 	private Timestamp publishedAt;
 
-	@Column(name="is_published")
+	@Column(name = "is_published")
 	private boolean isPublished;
 
-	@Column(name="created_at")
+	@Column(name = "created_at")
 	private Timestamp createdAt;
 
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getTitle() {
 		return title;
@@ -100,5 +108,3 @@ public class Post {
 		this.updatedAt = updatedAt;
 	}
 }
-
-
