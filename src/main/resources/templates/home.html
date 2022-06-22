@@ -13,98 +13,47 @@
 </head>
 
 <body>
-<div id="wrapper">
-  <div id="header">
-    <h1>My Blog Application</h1>
-  </div>
-  <div id="features">
-    <form action="" method="">
-      <input type="text" class="form-control" name="search" id="search" placeholder="search">
-    </form>
-
-    <form action="" method="">
-      <select name="" id="filter" class="form-control">
-        <option value="">Filter</option>
-      </select>
-    </form>
-
-    <form action="" method="">
-      <select name="" id="sort" class="form-control">
-        <option value="">Sort</option>
-      </select>
-    </form>
-
-    <form action="" method="">
-      <input type="submit" id="login" value="login" class="btn">
-    </form>
-
-  </div>
-</div>
-
-<main id="container-fluid">
-
-  <div id="content-box">
-
-    <div class="box card">
-      <div class="card-body">
-        <h4 class="card-title">Title</h4>
-          <p class="card-subtitle">Shantanu Vora, 22/06/2022</p>
-          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus animi ea rem quaerat
-            totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
-            aliquam amet soluta!</p>
-      </div>
+  <div id="wrapper">
+    <div id="header">
+      <h1>My Blog Application</h1>
     </div>
-    <div class="box card">
-      <div class="card-body">
-        <h4 class="card-title">Title</h4>
-          <p class="card-subtitle">Shantanu Vora, 22/06/2022</p>
-          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus animi ea rem quaerat
-            totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
-            aliquam amet soluta!</p>
-      </div>
-    </div>
-    <div class="box card">
-      <div class="card-body">
-        <h4 class="card-title">Title</h4>
-          <p class="card-subtitle">Shantanu Vora, 22/06/2022</p>
-          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus animi ea rem quaerat
-            totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
-            aliquam amet soluta!</p>
-      </div>
-    </div>
-    <div class="box card">
-      <div class="card-body">
-        <h4 class="card-title">Title</h4>
-          <p class="card-subtitle">Shantanu Vora, 22/06/2022</p>
-          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus animi ea rem quaerat
-            totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
-            aliquam amet soluta!</p>
-      </div>
-    </div>
+    <div id="features">
+      <form action="" method="">
+        <input type="text" class="form-control" name="search" id="search" placeholder="search">
+      </form>
 
-    <div class="box card">
-      <div class="card-body">
-        <h4 class="card-title">Title</h4>
-          <p class="card-subtitle">Shantanu Vora, 22/06/2022</p>
-          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus animi ea rem quaerat
-            totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
-            aliquam amet soluta!</p>
-      </div>
-    </div>
+      <form action="" method="">
+        <select name="" id="filter" class="form-control">
+          <option value="">Filter</option>
+        </select>
+      </form>
 
-    <div class="box card">
-      <div class="card-body">
-        <h4 class="card-title">Title</h4>
-          <p class="card-subtitle">Shantanu Vora, 22/06/2022</p>
-          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus animi ea rem quaerat
-            totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
-            aliquam amet soluta!</p>
-      </div>
-    </div>
+      <form action="" method="">
+        <select name="" id="sort" class="form-control">
+          <option value="">Sort</option>
+        </select>
+      </form>
 
+      <form action="" method="">
+        <input type="submit" id="login" value="login" class="btn">
+      </form>
+    </div>
   </div>
 
-</main>
+  <main id="container-fluid">
+    <div id="content-box" >
+      <div class="box card" th:each="post: ${postList}">
+        <div class="card-body">
+          <h4 class="card-title" th:text="${post.title}"></h4>
+          <p class="card-subtitle"><span th:text="${post.author}"></span>,
+            <span th:text="${post.createdAt.toString().split(' ')[0]}"></span></p>
+          <p class="card-text" th:text="${post.excerpt}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus animi ea rem quaerat
+            totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
+            aliquam amet soluta!</p>
+        </div>
+      </div>
+    </div>
+  </main>
 
 </body>
 </html>
