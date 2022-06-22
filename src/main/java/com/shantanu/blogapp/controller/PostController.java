@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/post")
 public class PostController {
@@ -33,16 +35,18 @@ public class PostController {
 
 	@PostMapping("/save")
 	public String savePost(@ModelAttribute("post") Post post, @ModelAttribute("tag") Tag tag) {
-//		String excerpt = post.getContent().substring(0, 101);
-//		post.setAuthor("Shantanu");
-//		post.setPublished(true);
-//		post.setPublishedAt(new Timestamp(System.currentTimeMillis()));
-//		post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-//		post.setExcerpt(excerpt);
-//		tag.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-
 		postService.savePost(post);
 		tagService.saveTag((tag));
 		return "redirect:/post/newPost";
 	}
+
+	@GetMapping("/")
+	public String showHomePage(Model model) {
+		List<Post> postList = postService.getAllPosts();
+		model.addAttribute("postList", postList);
+		return "home";
+	}
+
+
+
 }
