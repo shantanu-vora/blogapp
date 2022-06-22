@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.sql.Timestamp;
-
 @Controller
 @RequestMapping("/post")
 public class PostController {
@@ -35,13 +33,13 @@ public class PostController {
 
 	@PostMapping("/save")
 	public String savePost(@ModelAttribute("post") Post post, @ModelAttribute("tag") Tag tag) {
-		String excerpt = post.getContent().substring(0, 101);
-		post.setAuthor("Shantanu");
-		post.setPublished(true);
-		post.setPublishedAt(new Timestamp(System.currentTimeMillis()));
-		post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		post.setExcerpt(excerpt);
-		tag.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+//		String excerpt = post.getContent().substring(0, 101);
+//		post.setAuthor("Shantanu");
+//		post.setPublished(true);
+//		post.setPublishedAt(new Timestamp(System.currentTimeMillis()));
+//		post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+//		post.setExcerpt(excerpt);
+//		tag.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
 		postService.savePost(post);
 		tagService.saveTag((tag));
