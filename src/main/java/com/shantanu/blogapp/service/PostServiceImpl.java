@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -23,5 +24,10 @@ public class PostServiceImpl implements PostService{
 		post.setCreatedAt(currentTimestamp);
 		post.setExcerpt(excerpt);
 		postRepository.save(post);
+	}
+
+	@Override
+	public List<Post> getAllPosts() {
+		return postRepository.findAll();
 	}
 }
