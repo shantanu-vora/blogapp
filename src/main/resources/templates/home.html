@@ -48,7 +48,7 @@
         <div class="card-body">
           <h4 class="card-title" th:text="${post.title}"></h4>
           <p class="card-subtitle"><span th:text="${post.author}"></span>,
-            <span th:text="${post.createdAt.toString().split(' ')[0]}"></span></p>
+            <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span></p>
           <p class="card-text" th:text="${post.excerpt}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus animi ea rem quaerat
             totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
             aliquam amet soluta!</p>

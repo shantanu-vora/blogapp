@@ -21,7 +21,7 @@
       <a href="#" >Login</a>
     </div>
     <h1 th:text="${post.title}"></h1>
-    <p><span th:text="${post.author}"></span>, <span th:text="${post.createdAt.toString().split(' ')[0]}"></span></p>
+    <p><span th:text="${post.author}"></span>, <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span></p>
     <p id="content" th:text="${post.content}"></p>
   </div>
 </body>
