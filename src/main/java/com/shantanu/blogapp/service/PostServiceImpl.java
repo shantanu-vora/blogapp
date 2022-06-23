@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -29,5 +30,17 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public List<Post> getAllPosts() {
 		return postRepository.findAll();
+	}
+
+	@Override
+	public Post getPostById(int id) {
+		Optional<Post> optionalPost = postRepository.findById(id);
+		Post post = null;
+		if(optionalPost.isPresent()) {
+			post = optionalPost.get();
+		} else {
+			throw new RuntimeException("Did not find post id " + id);
+		}
+		return post;
 	}
 }
