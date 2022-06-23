@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymelef.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -42,7 +42,9 @@
 
   <main id="container-fluid">
     <div id="content-box" >
+
       <div class="box card" th:each="post: ${postList}">
+        <a th:href="@{/post/{id}(id=${post.id})}">
         <div class="card-body">
           <h4 class="card-title" th:text="${post.title}"></h4>
           <p class="card-subtitle"><span th:text="${post.author}"></span>,
@@ -51,7 +53,9 @@
             totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
             aliquam amet soluta!</p>
         </div>
+        </a>
       </div>
+
     </div>
   </main>
 
