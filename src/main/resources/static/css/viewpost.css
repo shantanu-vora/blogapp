@@ -54,11 +54,12 @@ p {
 	font-size: 1rem;
 	line-height: 1.5;
 	border-radius: 0.25rem;
+	cursor: pointer;
 }
 
-.btn a {
-	text-decoration: none;
-	color: #000;
+a {
+    text-decoration: none;
+    color: #000;
 }
 
 #edit {

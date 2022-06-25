@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;1,200&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/home.css}">
+  <title>Blog Application | Home</title>
+</head>
+
+<body>
+<div id="wrapper">
+  <div id="header">
+    <h1>My Blog Application</h1>
+  </div>
+  <div id="features">
+    <form action="" method="">
+      <input type="text" class="form-control" name="search" id="search" placeholder="search">
+    </form>
+
+    <form action="" method="">
+      <select name="" id="filter" class="form-control">
+        <option value="">Filter</option>
+      </select>
+    </form>
+
+    <form action="" method="">
+      <select name="" id="sort" class="form-control">
+        <option value="">Sort</option>
+      </select>
+    </form>
+
+    <form action="" method="">
+      <input type="submit" id="login" value="login" class="btn">
+    </form>
+  </div>
+</div>
+
+<main id="container-fluid">
+  <div id="content-box">
+    <div class="box card" th:each="post: ${postList}" th:if="${post.isPublished == false}">
+      <a th:href="@{/post/{id}(id=${post.id})}">
+        <div class="card-body">
+          <h4 class="card-title" th:text="${post.title}"></h4>
+          <p class="card-subtitle"><span th:text="${post.author}"></span>,
+            <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span></p>
+          <p class="card-text" th:text="${post.excerpt}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus animi ea rem quaerat
+            totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
+            aliquam amet soluta!</p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>

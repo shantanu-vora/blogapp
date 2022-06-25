@@ -65,7 +65,9 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public void updatePost(Post post, Post postById) {
-		String excerpt = post.getContent().substring(0, 101);
+		String excerpt = post.getContent().length() < 150 ?
+										 post.getContent() :
+										 post.getContent().substring(0, 150)+"...";
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		post.setAuthor("Shantanu");
 		post.setPublished(true);

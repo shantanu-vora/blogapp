@@ -33,8 +33,9 @@ public class PostController {
 
 	@PostMapping("/saveDraft")
 	public String saveDraft(Post post, Tag tag) {
+		Post postById = postService.getPostById(post.getId());
 		postService.saveDraft(post, tag);
-		return "redirect:/post/newPost";
+		return "redirect:/post/drafts";
 	}
 
 
@@ -43,6 +44,13 @@ public class PostController {
 		List<Post> postList = postService.getAllPosts();
 		model.addAttribute("postList", postList);
 		return "home";
+	}
+
+	@GetMapping("/drafts")
+	public String showDraftsPage(Model model) {
+		List<Post> postList = postService.getAllPosts();
+		model.addAttribute("postList", postList);
+		return "viewdraft";
 	}
 
 	@GetMapping("/{id}")
