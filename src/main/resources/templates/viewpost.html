@@ -29,6 +29,70 @@
   </div>
 
   <a th:href="@{/post/edit/{id}(id=${post.id})}"><button id="edit" class="btn">Edit</button></a>
+
+  <div id="comment-section">
+
+    <div id="comment-list">
+      <h3>Comment List</h3>
+
+      <!-- <div> -->
+      <ul>
+        <li>
+          <div id="comment">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
+              et
+              dolorum repellendus corporis distinctio!
+            </p>
+            <button id="editComment" class="btn">Edit</button>
+            <button id="deleteCommment" class="btn">Delete</button>
+          </div>
+        </li>
+        <li>
+          <div id="comment">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
+              et
+              dolorum repellendus corporis distinctio!
+            </p>
+            <button id="editComment" class="btn">Edit</button>
+            <button id="deleteCommment" class="btn">Delete</button>
+          </div>
+        </li>
+        <li>
+          <div id="comment">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
+              et
+              dolorum repellendus corporis distinctio!
+            </p>
+            <button id="editComment" class="btn">Edit</button>
+            <button id="deleteCommment" class="btn">Delete</button>
+          </div>
+        </li>
+      </ul>
+      <!-- </div> -->
+    </div>
+
+    <div id="comment-form">
+      <h3>Comment Form</h3>
+      <form action="">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Email">
+        </div>
+
+        <div class="form-group">
+          <label for="comment-text"></label>
+          <textarea class="form-control" id="comment-text" rows="10" name="comment"
+            placeholder="Add a comment"></textarea>
+        </div>
+        <!-- <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea> -->
+      </form>
+    </div>
+  </div>
+
 </body>
 
 </html>

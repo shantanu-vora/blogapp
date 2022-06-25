@@ -55,6 +55,7 @@ body {
 
 textarea.form-control {
 	height: 20rem;
+	resize: none;
 }
 
 label {
