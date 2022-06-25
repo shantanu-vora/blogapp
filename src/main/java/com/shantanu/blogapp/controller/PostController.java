@@ -3,6 +3,7 @@ package com.shantanu.blogapp.controller;
 import com.shantanu.blogapp.entity.Comment;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.entity.Tag;
+import com.shantanu.blogapp.service.CommentService;
 import com.shantanu.blogapp.service.PostService;
 import com.shantanu.blogapp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class PostController {
 
 	@Autowired
 	private TagService tagService;
+
+	@Autowired
+	private CommentService commentService;
 
 	@GetMapping("/newPost")
 	public String showNewPostPage(@ModelAttribute("post") Post post, @ModelAttribute("tag") Tag tag) {
@@ -58,9 +62,7 @@ public class PostController {
 	@GetMapping("/{id}")
 	public String viewPost(@PathVariable("id") int id, Model model, @ModelAttribute("comment") Comment comment) {
 		Post post = postService.getPostById(id);
-//		Comment comment = new Comment();
 		model.addAttribute("post", post);
-//		model.addAttribute("comment", comment);
 		return "viewpost";
 	}
 
@@ -79,4 +81,14 @@ public class PostController {
 		postService.updatePost(post, postById);
 		return "redirect:/post/";
 	}
+
+	@PostMapping("/saveComment/{id}")
+	public String saveComment(@PathVariable("id") int id, Comment comment) {
+		Post post = postService.getPostById(id);
+		post.addComment(commentService.addCommentDetails(post, comment));
+		postService.saveComment(post);
+
+		return "redirect:/post/{id}";
+	}
+
 }

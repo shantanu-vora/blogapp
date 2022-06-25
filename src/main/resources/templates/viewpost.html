@@ -39,14 +39,13 @@
 
       <!-- <div> -->
       <ul>
-        <li>
+        <li th:each="comments: ${post.comments}">
           <div class="comment">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
-              et
-              dolorum repellendus corporis distinctio!
-            </p>
-            <button class="btn editComment">Edit</button>
-            <button class="btn deleteCommment">Delete</button>
+            <p th:text="${comments.text}"></p>
+            <div class="comment-buttons">
+              <button class="btn editComment">Edit</button>
+              <button class="btn deleteCommment">Delete</button>
+            </div>
           </div>
         </li>
       </ul>
@@ -55,7 +54,7 @@
 
     <div class="comment-form">
       <h3>Comment Form</h3>
-      <form id="form" action="#" th:object="${comment}" method="POST">
+      <form id="form" th:object="${comment}" method="post">
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" name="name" th:field="*{name}" id="name" placeholder="Name">

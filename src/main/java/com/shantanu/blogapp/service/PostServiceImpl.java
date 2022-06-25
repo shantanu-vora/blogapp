@@ -78,6 +78,23 @@ public class PostServiceImpl implements PostService{
 		postRepository.save(post);
 	}
 
+	@Override
+	public String savePost(Post post) {
+		post.setPublished(true);
+		setPostFields(post);
+		try {
+			postRepository.save(post);
+		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
+			return "redirect:/post/newPost";
+		}
+		return null;
+	}
+
+	@Override
+	public void saveComment(Post post) {
+		postRepository.save(post);
+	}
+
 	public void enterTags(Post post, Tag tag) {
 		List<String> tagsList = Arrays.asList(tag.getName().split(","));
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());

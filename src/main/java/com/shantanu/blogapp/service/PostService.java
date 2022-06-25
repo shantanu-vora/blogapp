@@ -11,4 +11,8 @@ public interface PostService {
 	List<Post> getAllPosts();
 	Post getPostById(int id);
 	void updatePost(Post post, Post postById);
+
+	String savePost(Post post);
+
+	void saveComment(Post post);
 }
