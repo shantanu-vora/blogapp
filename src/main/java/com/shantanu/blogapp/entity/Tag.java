@@ -2,6 +2,8 @@ package com.shantanu.blogapp.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="tag")
@@ -20,6 +22,13 @@ public class Tag {
 
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
+
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name="post_tag",
+						 joinColumns=@JoinColumn(name="tag_id"),
+						 inverseJoinColumns=@JoinColumn(name="post_id")
+						)
+	private List<Post> posts = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -51,5 +60,13 @@ public class Tag {
 
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 }

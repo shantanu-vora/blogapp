@@ -1,11 +1,14 @@
 package com.shantanu.blogapp.service;
 
 import com.shantanu.blogapp.entity.Post;
+import com.shantanu.blogapp.entity.Tag;
 import com.shantanu.blogapp.repository.PostRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +18,11 @@ public class PostServiceImpl implements PostService{
 	@Autowired
 	private PostRepository postRepository;
 
+	@Autowired
+	private TagService tagService;
+
 	@Override
-	public void savePost(Post post) {
+	public String savePost(Post post, Tag tag) {
 		String excerpt = post.getContent().substring(0, 101);
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		post.setAuthor("Shantanu");
@@ -24,7 +30,13 @@ public class PostServiceImpl implements PostService{
 		post.setPublishedAt(currentTimestamp);
 		post.setCreatedAt(currentTimestamp);
 		post.setExcerpt(excerpt);
-		postRepository.save(post);
+		enterTags(post, tag);
+		try {
+			postRepository.save(post);
+		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
+			return "redirect:/post/newPost";
+		}
+		return null;
 	}
 
 	@Override
@@ -43,4 +55,40 @@ public class PostServiceImpl implements PostService{
 		}
 		return post;
 	}
+
+	@Override
+	public void updatePost(Post post, Post postById) {
+		String excerpt = post.getContent().substring(0, 101);
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		post.setAuthor("Shantanu");
+		post.setPublished(true);
+		post.setPublishedAt(currentTimestamp);
+		post.setCreatedAt(postById.getCreatedAt());
+		post.setUpdatedAt(currentTimestamp);
+		post.setExcerpt(excerpt);
+		postRepository.save(post);
+	}
+
+	public void enterTags(Post post, Tag tag) {
+		List<String> tagsList = Arrays.asList(tag.getName().split(","));
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+
+		for(String tagName: tagsList) {
+			Tag theTag = new Tag();
+			Tag newTag = tagService.getTagByName(tagName);
+			tag.getPosts().add(post);
+			if (newTag == null) {
+				theTag.setName(tagName);
+				theTag.setCreatedAt(currentTimestamp);
+				tagService.saveTag(theTag);
+				post.getTags().add(theTag);
+			} else {
+				post.getTags().add(newTag);
+			}
+		}
+	}
 }
+
+
+
+

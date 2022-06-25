@@ -18,12 +18,17 @@
   <div class="box">
     <div class="header">
       <h5>My Blog Application</h5>
-      <a href="#" >Login</a>
+      <a href="#">Login</a>
     </div>
-    <h1 th:text="${post.title}"></h1>
-    <p><span th:text="${post.author}"></span>, <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span></p>
-    <p id="content" th:text="${post.content}"></p>
+    <div class="box-body">
+      <h1 th:text="${post.title}"></h1>
+      <p><span th:text="${post.author}"></span>, <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>
+      </p>
+      <p id="content" th:text="${post.content}"></p>
+    </div>
   </div>
+
+  <a th:href="@{/post/edit/{id}(id=${post.id})}"><button id="edit" class="btn">Edit</button></a>
 </body>
 
 </html>

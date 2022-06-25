@@ -116,6 +116,7 @@ form {
 
 .card-body {
 	padding: 1.25rem;
+	word-wrap: break-word;
 }
 
 .card-title {

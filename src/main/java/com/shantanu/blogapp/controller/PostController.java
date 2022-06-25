@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -22,18 +21,13 @@ public class PostController {
 	private TagService tagService;
 
 	@GetMapping("/newPost")
-	public String showNewPostPage(Model model) {
-		Post post = new Post();
-		Tag tag = new Tag();
-		model.addAttribute("post", post);
-		model.addAttribute("tag", tag);
+	public String showNewPostPage(@ModelAttribute("post") Post post, @ModelAttribute("tag") Tag tag) {
 		return "newpost";
 	}
 
 	@PostMapping("/save")
-	public String savePost(@ModelAttribute("post") Post post, @ModelAttribute("tag") Tag tag) {
-		postService.savePost(post);
-		tagService.saveTag((tag));
+	public String savePost(Post post, Tag tag) {
+		postService.savePost(post, tag);
 		return "redirect:/post/newPost";
 	}
 
@@ -51,4 +45,19 @@ public class PostController {
 		return "viewpost";
 	}
 
+	@GetMapping("/edit/{id}")
+	public String editPost(@PathVariable("id") int id, Model model) {
+		Post post = postService.getPostById(id);
+		Tag tag = new Tag();
+		model.addAttribute("post", post);
+		model.addAttribute("tag", tag);
+		return "newPostEdit";
+	}
+
+	@PostMapping("/update")
+	public String updatePost(@ModelAttribute("post") Post post) {
+		Post postById = postService.getPostById(post.getId());
+		postService.updatePost(post, postById);
+		return "redirect:/post/";
+	}
 }
