@@ -45,6 +45,10 @@ public class Post {
 						)
 	private List<Tag> tags = new ArrayList<>();
 
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="post_id")
+	private List<Comment> comments;
+
 	public int getId() {
 		return id;
 	}
@@ -124,4 +128,20 @@ public class Post {
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public void addComment(Comment comment) {
+		if(comments == null) {
+			comments = new ArrayList<>();
+		}
+		comments.add(comment);
+	}
+
 }
