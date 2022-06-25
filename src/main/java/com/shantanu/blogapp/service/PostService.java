@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface PostService {
 	String savePost(Post post, Tag tag);
+	String saveDraft(Post post, Tag tag);
 	List<Post> getAllPosts();
 	Post getPostById(int id);
 	void updatePost(Post post, Post postById);

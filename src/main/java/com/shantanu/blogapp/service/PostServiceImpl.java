@@ -23,13 +23,8 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public String savePost(Post post, Tag tag) {
-		String excerpt = post.getContent().substring(0, 101);
-		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		post.setAuthor("Shantanu");
 		post.setPublished(true);
-		post.setPublishedAt(currentTimestamp);
-		post.setCreatedAt(currentTimestamp);
-		post.setExcerpt(excerpt);
+		setPostFields(post);
 		enterTags(post, tag);
 		try {
 			postRepository.save(post);
@@ -39,6 +34,18 @@ public class PostServiceImpl implements PostService{
 		return null;
 	}
 
+	@Override
+	public String saveDraft(Post post, Tag tag) {
+		post.setPublished(false);
+		setPostFields(post);
+		enterTags(post, tag);
+		try {
+			postRepository.save(post);
+		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
+			return "redirect:/post/newPost";
+		}
+		return null;
+	}
 	@Override
 	public List<Post> getAllPosts() {
 		return postRepository.findAll();
@@ -86,6 +93,17 @@ public class PostServiceImpl implements PostService{
 				post.getTags().add(newTag);
 			}
 		}
+	}
+
+	void setPostFields(Post post) {
+		String excerpt = post.getContent().length() < 150 ?
+						post.getContent() :
+						post.getContent().substring(0, 150)+"...";
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		post.setAuthor("Shantanu");
+		post.setPublishedAt(currentTimestamp);
+		post.setCreatedAt(currentTimestamp);
+		post.setExcerpt(excerpt);
 	}
 }
 

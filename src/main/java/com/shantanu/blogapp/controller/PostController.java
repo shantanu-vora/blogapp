@@ -31,6 +31,13 @@ public class PostController {
 		return "redirect:/post/newPost";
 	}
 
+	@PostMapping("/saveDraft")
+	public String saveDraft(Post post, Tag tag) {
+		postService.saveDraft(post, tag);
+		return "redirect:/post/newPost";
+	}
+
+
 	@GetMapping("/")
 	public String showHomePage(Model model) {
 		List<Post> postList = postService.getAllPosts();

@@ -41,9 +41,8 @@
   </div>
 
   <main id="container-fluid">
-    <div id="content-box" >
-
-      <div class="box card" th:each="post: ${postList}">
+    <div id="content-box">
+      <div class="box card" th:each="post: ${postList}" th:if="${post.isPublished == true}">
         <a th:href="@{/post/{id}(id=${post.id})}">
         <div class="card-body">
           <h4 class="card-title" th:text="${post.title}"></h4>
