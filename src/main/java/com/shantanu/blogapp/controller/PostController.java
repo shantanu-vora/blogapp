@@ -1,5 +1,6 @@
 package com.shantanu.blogapp.controller;
 
+import com.shantanu.blogapp.entity.Comment;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.entity.Tag;
 import com.shantanu.blogapp.service.PostService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -54,9 +56,11 @@ public class PostController {
 	}
 
 	@GetMapping("/{id}")
-	public String viewPost(@PathVariable("id") int id, Model model) {
+	public String viewPost(@PathVariable("id") int id, Model model, @ModelAttribute("comment") Comment comment) {
 		Post post = postService.getPostById(id);
+//		Comment comment = new Comment();
 		model.addAttribute("post", post);
+//		model.addAttribute("comment", comment);
 		return "viewpost";
 	}
 

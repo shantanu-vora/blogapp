@@ -73,11 +73,11 @@ a {
 	margin: 2rem;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: space-evenly;
 }
 
 #comment-list {
-	padding: 0 3rem;
+	padding: 0 3rem 0 1.5rem;
 	/* border: 1px solid #000; */
 	justify-items: flex-start;
 	width: 70%;
@@ -91,30 +91,33 @@ ul p {
 	margin: 0.5rem;
 }
 
-#comment button {
+.comment button {
 	margin: 0.3rem 0.3rem 0.3rem;
 	font-size: 0.9rem;
 	padding: 0.3rem 0.3rem;
 	width: 8rem;
 }
 
-#comment {
+.comment {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 }
 
-#comment-form {
+.comment-form {
 	padding: 0 3rem;
 	/* border: 1px solid #000; */
 	width: 30%;
 	font-size: 0.9rem;
 }
 
-#comment-form h3 {
+.comment-form h3 {
 	text-align: center;
 }
 
+/* .comment-form #form {
+	padding-left: 2rem;
+} */
 .form-group {
 	margin-bottom: 1rem;
 }
@@ -126,7 +129,7 @@ ul p {
 	padding: 0.2rem 0.75rem;
 	font-size: 1rem;
 	line-height: 1.5;
-	color: #999;
+	color: #000;
 	background-color: #fff;
 	background-clip: padding-box;
 	border: 1px solid #000;

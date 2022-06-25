@@ -1,2 +1,8 @@
-package com.shantanu.blogapp.service;public interface CommentService {
+package com.shantanu.blogapp.service;
+
+import com.shantanu.blogapp.entity.Comment;
+
+public interface CommentService {
+
+	void saveComment(Comment comment);
 }

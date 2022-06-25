@@ -40,89 +40,40 @@
       <!-- <div> -->
       <ul>
         <li>
-          <div id="comment">
+          <div class="comment">
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
               et
               dolorum repellendus corporis distinctio!
             </p>
-            <button id="editComment" class="btn">Edit</button>
-            <button id="deleteCommment" class="btn">Delete</button>
-          </div>
-        </li>
-        <li>
-          <div id="comment">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
-              et
-              dolorum repellendus corporis distinctio!
-            </p>
-            <button id="editComment" class="btn">Edit</button>
-            <button id="deleteCommment" class="btn">Delete</button>
-          </div>
-        </li>
-        <li>
-          <div id="comment">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
-              et
-              dolorum repellendus corporis distinctio!
-            </p>
-            <button id="editComment" class="btn">Edit</button>
-            <button id="deleteCommment" class="btn">Delete</button>
-          </div>
-        </li>
-        <li>
-          <div id="comment">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
-              et
-              dolorum repellendus corporis distinctio!
-            </p>
-            <button id="editComment" class="btn">Edit</button>
-            <button id="deleteCommment" class="btn">Delete</button>
-          </div>
-        </li>
-        <li>
-          <div id="comment">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
-              et
-              dolorum repellendus corporis distinctio!
-            </p>
-            <button id="editComment" class="btn">Edit</button>
-            <button id="deleteCommment" class="btn">Delete</button>
-          </div>
-        </li>
-        <li>
-          <div id="comment">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
-              et
-              dolorum repellendus corporis distinctio!
-            </p>
-            <button id="editComment" class="btn">Edit</button>
-            <button id="deleteCommment" class="btn">Delete</button>
+            <button class="btn editComment">Edit</button>
+            <button class="btn deleteCommment">Delete</button>
           </div>
         </li>
       </ul>
       <!-- </div> -->
     </div>
 
-    <div id="comment-form">
+    <div class="comment-form">
       <h3>Comment Form</h3>
-      <form action="">
+      <form id="form" action="#" th:object="${comment}" method="POST">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" id="name" placeholder="Name">
+          <input type="text" class="form-control" name="name" th:field="*{name}" id="name" placeholder="Name">
+<!--          <input type="text" name="id" th:value="${post.id}" />-->
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="Email">
+          <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Email">
         </div>
 
         <div class="form-group">
           <label for="comment-text"></label>
-          <textarea class="form-control" id="comment-text" rows="10" name="comment"
+          <textarea class="form-control" id="comment-text" rows="10" name="text"
             placeholder="Make a comment"></textarea>
         </div>
 
         <div class="form-group" align="center">
-          <button type="submit" class="btn">Submit</button>
+          <button type="submit" th:formaction="@{/post/saveComment/{id}(id=${post.id})}" class="btn">Submit</button>
         </div>
       </form>
     </div>
