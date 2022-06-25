@@ -28,7 +28,9 @@
     </div>
   </div>
 
-  <a th:href="@{/post/edit/{id}(id=${post.id})}"><button id="edit" class="btn">Edit</button></a>
+  <div align="center">
+    <a th:href="@{/post/edit/{id}(id=${post.id})}"><button id="edit" class="btn">Edit</button></a>
+  </div>
 
   <div id="comment-section">
 
@@ -37,6 +39,36 @@
 
       <!-- <div> -->
       <ul>
+        <li>
+          <div id="comment">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
+              et
+              dolorum repellendus corporis distinctio!
+            </p>
+            <button id="editComment" class="btn">Edit</button>
+            <button id="deleteCommment" class="btn">Delete</button>
+          </div>
+        </li>
+        <li>
+          <div id="comment">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
+              et
+              dolorum repellendus corporis distinctio!
+            </p>
+            <button id="editComment" class="btn">Edit</button>
+            <button id="deleteCommment" class="btn">Delete</button>
+          </div>
+        </li>
+        <li>
+          <div id="comment">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
+              et
+              dolorum repellendus corporis distinctio!
+            </p>
+            <button id="editComment" class="btn">Edit</button>
+            <button id="deleteCommment" class="btn">Delete</button>
+          </div>
+        </li>
         <li>
           <div id="comment">
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo exercitationem sit dicta rem, cumque nam
@@ -86,9 +118,12 @@
         <div class="form-group">
           <label for="comment-text"></label>
           <textarea class="form-control" id="comment-text" rows="10" name="comment"
-            placeholder="Add a comment"></textarea>
+            placeholder="Make a comment"></textarea>
         </div>
-        <!-- <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea> -->
+
+        <div class="form-group" align="center">
+          <button type="submit" class="btn">Submit</button>
+        </div>
       </form>
     </div>
   </div>
