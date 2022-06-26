@@ -1,0 +1,54 @@
+.container {
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.container h2 {
+	margin-top: 10rem;
+}
+
+.comment-form {
+	padding: 0 3rem;
+	width: 30%;
+	font-size: 0.9rem;
+	margin: auto;
+}
+
+.form-group {
+	margin-bottom: 1rem;
+}
+
+.form-control {
+	display: block;
+	width: 70%;
+	height: 2rem;
+	padding: 0.2rem 0.75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: #000;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #000;
+	border-radius: 0.25rem;
+}
+
+textarea.form-control {
+	height: 5rem;
+	width: 100%;
+	resize: none;
+}
+
+.btn {
+	/* display: block; */
+	font-weight: 400;
+	text-align: center;
+	border: 1px solid #000;
+	padding: 0.375rem 0.75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	border-radius: 0.25rem;
+	cursor: pointer;
+}

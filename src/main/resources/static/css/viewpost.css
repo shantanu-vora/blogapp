@@ -98,6 +98,12 @@ ul p {
 	width: 6rem;
 }
 
+.comment-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 .comment {
 	display: flex;
 	flex-direction: row;

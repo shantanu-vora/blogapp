@@ -82,13 +82,4 @@ public class PostController {
 		return "redirect:/post/";
 	}
 
-	@PostMapping("/saveComment/{id}")
-	public String saveComment(@PathVariable("id") int id, Comment comment) {
-		Post post = postService.getPostById(id);
-		post.addComment(commentService.addCommentDetails(post, comment));
-		postService.saveComment(post);
-
-		return "redirect:/post/{id}";
-	}
-
 }

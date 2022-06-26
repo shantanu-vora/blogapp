@@ -1,5 +1,6 @@
 package com.shantanu.blogapp.service;
 
+import com.shantanu.blogapp.entity.Comment;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.entity.Tag;
 import com.shantanu.blogapp.repository.PostRepository;
@@ -64,7 +65,8 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public void updatePost(Post post, Post postById) {
+	public void updatePost(Post post, Post oldPost) {
+		List<Comment> commentList = oldPost.getComments();
 		String excerpt = post.getContent().length() < 150 ?
 										 post.getContent() :
 										 post.getContent().substring(0, 150)+"...";
@@ -72,9 +74,10 @@ public class PostServiceImpl implements PostService{
 		post.setAuthor("Shantanu");
 		post.setPublished(true);
 		post.setPublishedAt(currentTimestamp);
-		post.setCreatedAt(postById.getCreatedAt());
+		post.setCreatedAt(oldPost.getCreatedAt());
 		post.setUpdatedAt(currentTimestamp);
 		post.setExcerpt(excerpt);
+		post.setComments(commentList);
 		postRepository.save(post);
 	}
 
@@ -125,7 +128,3 @@ public class PostServiceImpl implements PostService{
 		post.setExcerpt(excerpt);
 	}
 }
-
-
-
-

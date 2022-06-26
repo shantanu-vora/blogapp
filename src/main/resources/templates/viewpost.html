@@ -32,7 +32,7 @@
     <a th:href="@{/post/edit/{id}(id=${post.id})}"><button id="edit" class="btn">Edit</button></a>
   </div>
 
-  <div id="comment-section">
+  <div id="comment-section" th:if="${post.isPublished == true}">
 
     <div id="comment-list">
       <h3>Comment List</h3>
@@ -43,8 +43,13 @@
           <div class="comment">
             <p th:text="${comments.text}"></p>
             <div class="comment-buttons">
-              <button class="btn editComment">Edit</button>
-              <button class="btn deleteCommment">Delete</button>
+                <a th:href="@{/post/{postId}/comment/{commentId} (postId=${post.id}, commentId=${comments.id})}">
+                  <button type="submit" class="btn">Edit</button>
+                </a>
+
+              <form action="#" method="POST">
+              <button type="submit" class="btn" th:formaction="@{/post/comment}">Delete</button>
+              </form>
             </div>
           </div>
         </li>
@@ -58,7 +63,7 @@
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" name="name" th:field="*{name}" id="name" placeholder="Name">
-<!--          <input type="text" name="id" th:value="${post.id}" />-->
+          <!--          <input type="text" name="id" th:value="${post.id}" />-->
         </div>
         <div class="form-group">
           <label for="email">Email</label>

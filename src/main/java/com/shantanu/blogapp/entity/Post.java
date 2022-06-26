@@ -144,4 +144,16 @@ public class Post {
 		comments.add(comment);
 	}
 
+	public Comment getCommentById(int commentId) {
+		System.out.println(this.getId());
+		Comment theComment = null;
+		for(Comment comment: comments) {
+			System.out.println(comment.getId());
+			if(comment.getId() == commentId) {
+				theComment= comment;
+			}
+		}
+		return theComment;
+	}
+
 }
