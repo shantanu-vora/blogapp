@@ -13,8 +13,8 @@ public interface PostService {
 	Post getPostById(int id);
 	void updatePost(Post post, Tag tag, Post postById);
 	void saveComment(Post post);
-	List<Post> getByKeyword(String keyword);
+//	List<Post> getByKeyword(String keyword);
 
-	Page<Post> findPaginated(int pageNumber, int pageSize);
+	Page<Post> findPaginated(int pageNumber, int pageSize, String searchText);
 
 }

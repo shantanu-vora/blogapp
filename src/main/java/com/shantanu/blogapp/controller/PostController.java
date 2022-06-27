@@ -52,7 +52,7 @@ public class PostController {
 //		List<Post> postList = postService.getAllPosts();
 //		model.addAttribute("postList", postList);
 //		return "home";
-		return findPaginated(1, model);
+		return findPaginated(1, model, "");
 	}
 
 	@GetMapping("/drafts")
@@ -94,28 +94,25 @@ public class PostController {
 
 	@GetMapping("/search")
 	public String searchPosts(@RequestParam("search") String searchText, Model model) {
-		List<Post> searchedList = postService.getByKeyword(searchText.toUpperCase());
-		model.addAttribute("postList", searchedList);
-		return "home";
+//		List<Post> searchedList = postService.getByKeyword(searchText.toUpperCase());
+		System.out.println(searchText);
+//		model.addAttribute("postList", searchedList);
+		return findPaginated(1, model, searchText.toUpperCase());
 	}
 
 	@GetMapping("/page/{pageNumber}")
-	public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model) {
-		int pageSize = 2;
-
-		Page<Post> page = postService.findPaginated(pageNumber, pageSize);
+	public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model, String searchText) {
+		int pageSize = 10;
+		System.out.println(searchText);
+		Page<Post> page = postService.findPaginated(pageNumber, pageSize, searchText);
+		System.out.println(page);
 		List<Post> listPosts = page.getContent();
-
-//		System.out.println(listPosts.get(0).getTitle());
-//		System.out.println(listPosts.get(1).getTitle());
-//		System.out.println(listPosts.get(2));
-//		System.out.println(listPosts.get(3));
-//		System.out.println(listPosts.get(4));
 
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("totalPosts", page.getTotalElements());
 		model.addAttribute("postList", listPosts);
+		model.addAttribute("searchText", searchText);
 		return "home";
 
 	}

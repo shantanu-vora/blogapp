@@ -114,14 +114,17 @@ public class PostServiceImpl implements PostService{
 		}
 	}
 
-	public List<Post> getByKeyword(String keyword) {
-		return postRepository.findByKeyword(keyword);
-	}
+//	public List<Post> getByKeyword(String keyword) {
+//		return postRepository.findByKeyword(keyword);
+//	}
 
 	@Override
-	public Page<Post> findPaginated(int pageNumber, int pageSize) {
+	public Page<Post> findPaginated(int pageNumber, int pageSize, String searchText) {
 		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
-		return this.postRepository.findAll(pageable);
+		System.out.println(pageNumber + " " + pageSize + " " + searchText);
+//		return postRepository.findPublishedPosts(pageable);
+
+		return this.postRepository.findByKeyword(pageable, searchText);
 	}
 }
 

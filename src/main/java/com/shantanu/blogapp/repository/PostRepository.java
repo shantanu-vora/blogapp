@@ -1,17 +1,19 @@
 package com.shantanu.blogapp.repository;
 
 import com.shantanu.blogapp.entity.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-	@Query(value="select * from post p where upper(p.title) like %:keyword% " +
-					" or upper(p.content) like %:keyword% or upper(p.author) like %:keyword%", nativeQuery = true)
-	List<Post> findByKeyword(@Param("keyword") String keyword);
+	@Query(value="select * from post where is_published = true and (upper(title) like %?1% or upper(content) like %?1%)", nativeQuery = true)
+	Page<Post> findByKeyword(Pageable pageable, String keyword);
+
+//	@Query(value="select * from post where is_published = true", nativeQuery = true)
+//	Page<Post> findPublishedPosts(Pageable pageable);
+
 }

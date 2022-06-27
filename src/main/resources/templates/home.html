@@ -20,26 +20,31 @@
       <h1>My Blog Application</h1>
     </div>
     <div id="features">
-      <form id="searchForm" action="search" method="GET">
-        <input type="text" class="form-control" name="search" id="search" placeholder="search">
-        <button id="searchBtn" type="submit" class="btn">Search</button>
-      </form>
-
-      <form action="" method="">
-        <select name="" id="filter" class="form-control">
-          <option value="">Filter</option>
-        </select>
-      </form>
-
-      <form action="" method="">
-        <select name="" id="sort" class="form-control">
-          <option value="">Sort</option>
-        </select>
-      </form>
-
-      <form action="" method="">
-        <input type="submit" id="login" value="login" class="btn">
-      </form>
+      <div id="searchForm" class="form">
+        <form th:action="@{/post/search}" method="GET">
+          <input type="text" class="form-control" name="search" id="search" placeholder="search">
+          <button id="searchBtn" type="submit" class="btn">Search</button>
+        </form>
+      </div>
+      <div class="form">
+        <form action="" method="">
+          <select name="" id="filter" class="form-control">
+            <option value="">Filter</option>
+          </select>
+        </form>
+      </div>
+      <div class="form">
+        <form action="" method="">
+          <select name="" id="sort" class="form-control">
+            <option value="">Sort</option>
+          </select>
+        </form>
+      </div>
+      <div class="form">
+        <form action="" method="">
+          <input type="submit" id="login" value="login" class="btn">
+        </form>
+      </div>
     </div>
   </div>
 
@@ -68,22 +73,29 @@
   <div th:if="${totalPages > 1}">
     <div class="row col-sm-10">
       <div class="col-sm-2">
-        Total Rows: [[${totalPosts}]]
+        <!--        Total Rows: [[${totalPosts}]]-->
+      </div>
+      <div class="col-sm-1">
+        <a class="btn previous" th:if="${pageNumber > 1}"
+          th:href="@{'/post/page/' + ${pageNumber - 1} + '?searchText='+${searchText}}">Previous</a>
+        <span th:unless="${pageNumber > 1}"><button class="btn previous">Previous</button></span>
       </div>
       <div class="col-sm-1">
         <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-          <a th:if="${pageNumber != i}" th:href="@{'/post/page/'+${i}}">[[${i}]]</a>
+          <a id="pageNumbers" th:if="${pageNumber != i}"
+            th:href="@{'/post/page/'+${i} + '?searchText='+${searchText}}">[[${i}]]</a>
           <span th:unless="${pageNumber != i}">[[${i}]]</span>
         </span>
       </div>
       <div class="col-sm-1">
-        <a th:if="${pageNumber < totalPages}" th:href="@{'/post/page/' + ${pageNumber + 1}}">Next</a>
-        <span th:unless="${pageNumber < totalPages}">Next</span>
+        <a class="btn next" th:if="${pageNumber < totalPages}"
+          th:href="@{'/post/page/' + ${pageNumber + 1} + '?searchText='+${searchText}}">Next</a>
+        <span th:unless="${pageNumber < totalPages}"><button class="btn next"> Next </button></span>
       </div>
-      <div class="col-sm-1">
-        <a th:if="${pageNumber < totalPages}" th:href="@{'/post/page/' + ${totalPages}}">Last</a>
-        <span th:unless="${pageNumber < totalPages}">Last</span>
-      </div>
+      <!--      <div class="col-sm-1">-->
+      <!--        <a th:if="${pageNumber < totalPages}" th:href="@{'/post/page/' + ${totalPages}}">Last</a>-->
+      <!--        <span th:unless="${pageNumber < totalPages}">Last</span>-->
+      <!--      </div>-->
     </div>
   </div>
 
