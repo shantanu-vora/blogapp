@@ -48,7 +48,10 @@
                 </a>
 
               <form action="#" method="POST">
-              <button type="submit" class="btn" th:formaction="@{/post/comment}">Delete</button>
+              <button type="submit" class="btn"
+                      th:formaction="@{/post/{postId}/deleteComment/{commentId} (postId=${post.id}, commentId=${comments.id})}">
+                Delete
+              </button>
               </form>
             </div>
           </div>

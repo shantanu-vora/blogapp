@@ -15,4 +15,6 @@ public interface CommentService {
 	Comment getOldComment(Comment comment, Comment oldComment);
 
 	void updateComment(Comment comment, Comment oldComment);
+
+	void deleteComment(Comment comment);
 }

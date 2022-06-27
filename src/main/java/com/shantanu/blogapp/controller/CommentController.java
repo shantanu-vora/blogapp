@@ -59,4 +59,14 @@ public class CommentController {
 		return "redirect:/post/{postId}";
 	}
 
+	@PostMapping("/post/{postId}/deleteComment/{commentId}")
+	public String deleteComment(@PathVariable("commentId") int commentId) {
+
+//		System.out.println(comment);
+		System.out.println(commentService.getCommentById(commentId));
+		Comment comment = commentService.getCommentById(commentId);
+		commentService.deleteComment(comment);
+		return "redirect:/post/{postId}";
+	}
+
 }
