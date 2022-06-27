@@ -59,9 +59,33 @@
           </div>
         </a>
       </div>
-
     </div>
+
+
+
   </main>
+
+  <div th:if="${totalPages > 1}">
+    <div class="row col-sm-10">
+      <div class="col-sm-2">
+        Total Rows: [[${totalPosts}]]
+      </div>
+      <div class="col-sm-1">
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${pageNumber != i}" th:href="@{'/post/page/'+${i}}">[[${i}]]</a>
+          <span th:unless="${pageNumber != i}">[[${i}]]</span>
+        </span>
+      </div>
+      <div class="col-sm-1">
+        <a th:if="${pageNumber < totalPages}" th:href="@{'/post/page/' + ${pageNumber + 1}}">Next</a>
+        <span th:unless="${pageNumber < totalPages}">Next</span>
+      </div>
+      <div class="col-sm-1">
+        <a th:if="${pageNumber < totalPages}" th:href="@{'/post/page/' + ${totalPages}}">Last</a>
+        <span th:unless="${pageNumber < totalPages}">Last</span>
+      </div>
+    </div>
+  </div>
 
 </body>
 

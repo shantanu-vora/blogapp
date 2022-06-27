@@ -7,6 +7,9 @@ import com.shantanu.blogapp.repository.PostRepository;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -114,4 +117,11 @@ public class PostServiceImpl implements PostService{
 	public List<Post> getByKeyword(String keyword) {
 		return postRepository.findByKeyword(keyword);
 	}
+
+	@Override
+	public Page<Post> findPaginated(int pageNumber, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+		return this.postRepository.findAll(pageable);
+	}
 }
+

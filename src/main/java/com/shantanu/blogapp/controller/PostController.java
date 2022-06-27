@@ -7,9 +7,11 @@ import com.shantanu.blogapp.service.CommentService;
 import com.shantanu.blogapp.service.PostService;
 import com.shantanu.blogapp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,9 +49,10 @@ public class PostController {
 
 	@GetMapping("/")
 	public String showHomePage(Model model) {
-		List<Post> postList = postService.getAllPosts();
-		model.addAttribute("postList", postList);
-		return "home";
+//		List<Post> postList = postService.getAllPosts();
+//		model.addAttribute("postList", postList);
+//		return "home";
+		return findPaginated(1, model);
 	}
 
 	@GetMapping("/drafts")
@@ -94,5 +97,26 @@ public class PostController {
 		List<Post> searchedList = postService.getByKeyword(searchText.toUpperCase());
 		model.addAttribute("postList", searchedList);
 		return "home";
+	}
+
+	@GetMapping("/page/{pageNumber}")
+	public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model) {
+		int pageSize = 2;
+
+		Page<Post> page = postService.findPaginated(pageNumber, pageSize);
+		List<Post> listPosts = page.getContent();
+
+//		System.out.println(listPosts.get(0).getTitle());
+//		System.out.println(listPosts.get(1).getTitle());
+//		System.out.println(listPosts.get(2));
+//		System.out.println(listPosts.get(3));
+//		System.out.println(listPosts.get(4));
+
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("totalPosts", page.getTotalElements());
+		model.addAttribute("postList", listPosts);
+		return "home";
+
 	}
 }
