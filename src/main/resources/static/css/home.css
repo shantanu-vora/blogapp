@@ -59,10 +59,10 @@ main {
 	height: 1.5rem;
 	padding: 0.375rem 0.75rem;
 	font-size: 1rem;
-	line-height: 1.5;
+	/* line-height: 1.5; */
 	color: #495057;
 	background-color: #fff;
-	background-clip: padding-box;
+
 	border: 1px solid #000;
 	border-radius: 0.25rem;
 }
@@ -89,8 +89,12 @@ form {
 #filter,
 #search {
 	width: 10rem;
-	height: 2rem;
+	height: 32px;
 }
+
+/* #searchBtn {
+ width: fit-content; 
+} */
 
 #content-box {
 	display: flex;
@@ -132,7 +136,7 @@ form {
 	font-size: 0.8rem;
 }
 
-a{
-color: #000;
-text-decoration: none;
+a {
+	color: #000;
+	text-decoration: none;
 }

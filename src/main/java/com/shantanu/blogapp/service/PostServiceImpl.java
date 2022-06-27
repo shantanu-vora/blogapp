@@ -47,6 +47,29 @@ public class PostServiceImpl implements PostService{
 		}
 		return null;
 	}
+
+	@Override
+	public void updatePost(Post post, Tag tag, Post oldPost) {
+		List<Comment> commentList = oldPost.getComments();
+		post.setPublished(true);
+		setPostFields(post);
+		post.setCreatedAt(oldPost.getCreatedAt());
+		post.setComments(commentList);
+		enterTags(post, tag);
+		postRepository.save(post);
+	}
+
+	void setPostFields(Post post) {
+		String excerpt = post.getContent().length() < 150 ?
+										 post.getContent() :
+										 post.getContent().substring(0, 150)+"...";
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		post.setAuthor("Shantanu");
+		post.setPublishedAt(currentTimestamp);
+		post.setCreatedAt(currentTimestamp);
+		post.setExcerpt(excerpt);
+	}
+
 	@Override
 	public List<Post> getAllPosts() {
 		return postRepository.findAll();
@@ -62,35 +85,6 @@ public class PostServiceImpl implements PostService{
 			throw new RuntimeException("Did not find post id " + id);
 		}
 		return post;
-	}
-
-	@Override
-	public void updatePost(Post post, Post oldPost) {
-		List<Comment> commentList = oldPost.getComments();
-		String excerpt = post.getContent().length() < 150 ?
-										 post.getContent() :
-										 post.getContent().substring(0, 150)+"...";
-		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		post.setAuthor("Shantanu");
-		post.setPublished(true);
-		post.setPublishedAt(currentTimestamp);
-		post.setCreatedAt(oldPost.getCreatedAt());
-		post.setUpdatedAt(currentTimestamp);
-		post.setExcerpt(excerpt);
-		post.setComments(commentList);
-		postRepository.save(post);
-	}
-
-	@Override
-	public String savePost(Post post) {
-		post.setPublished(true);
-		setPostFields(post);
-		try {
-			postRepository.save(post);
-		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
-			return "redirect:/post/newPost";
-		}
-		return null;
 	}
 
 	@Override
@@ -117,14 +111,7 @@ public class PostServiceImpl implements PostService{
 		}
 	}
 
-	void setPostFields(Post post) {
-		String excerpt = post.getContent().length() < 150 ?
-						post.getContent() :
-						post.getContent().substring(0, 150)+"...";
-		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		post.setAuthor("Shantanu");
-		post.setPublishedAt(currentTimestamp);
-		post.setCreatedAt(currentTimestamp);
-		post.setExcerpt(excerpt);
+	public List<Post> getByKeyword(String keyword) {
+		return postRepository.findByKeyword(keyword);
 	}
 }

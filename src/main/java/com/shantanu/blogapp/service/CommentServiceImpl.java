@@ -5,7 +5,6 @@ import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -21,7 +20,6 @@ public class CommentServiceImpl implements CommentService{
 		comment.setCreatedAt(currentTimestamp);
 		comment.setPostId(post.getId());
 		return comment;
-//		commentRepository.save(comment);
 	}
 
 	@Override
@@ -44,20 +42,12 @@ public class CommentServiceImpl implements CommentService{
 	public Comment getOldComment(Comment comment, Comment oldComment) {
 		comment.setId(oldComment.getId());
 		comment.setText(oldComment.getText());
-//		commentRepository.save(comment);
 		return comment;
 	}
 
 	@Override
 	public void updateComment(Comment comment, Comment oldComment) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-//		comment.setId(oldComment.getId());
-//		comment.setName(oldComment.getName());
-//		comment.setEmail(oldComment.getEmail());
-//		comment.setText(oldComment.getText());
-//		comment.setPostId(oldComment.getPostId());
-//		comment.setCreatedAt(oldComment.getCreatedAt());
-//		comment.setUpdatedAt(currentTimestamp);
 		oldComment.setText(comment.getText());
 		oldComment.setUpdatedAt(currentTimestamp);
 		commentRepository.save(oldComment);

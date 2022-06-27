@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -70,16 +70,29 @@ public class PostController {
 	public String editPost(@PathVariable("id") int id, Model model) {
 		Post post = postService.getPostById(id);
 		Tag tag = new Tag();
+		List<Tag> tagList = post.getTags();
+		List<String> tagNames = new ArrayList<>();
+		for(Tag theTag: tagList) {
+			tagNames.add(theTag.getName());
+		}
+		String tags = String.join(",", tagNames);
+		tag.setName(tags);
 		model.addAttribute("post", post);
 		model.addAttribute("tag", tag);
 		return "newPostEdit";
 	}
 
 	@PostMapping("/update")
-	public String updatePost(@ModelAttribute("post") Post post) {
+	public String updatePost(@ModelAttribute("post") Post post, @ModelAttribute("tag") Tag tag) {
 		Post postById = postService.getPostById(post.getId());
-		postService.updatePost(post, postById);
+		postService.updatePost(post, tag, postById);
 		return "redirect:/post/";
 	}
 
+	@GetMapping("/search")
+	public String searchPosts(@RequestParam("search") String searchText, Model model) {
+		List<Post> searchedList = postService.getByKeyword(searchText.toUpperCase());
+		model.addAttribute("postList", searchedList);
+		return "home";
+	}
 }

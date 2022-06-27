@@ -10,9 +10,7 @@ public interface PostService {
 	String saveDraft(Post post, Tag tag);
 	List<Post> getAllPosts();
 	Post getPostById(int id);
-	void updatePost(Post post, Post postById);
-
-	String savePost(Post post);
-
+	void updatePost(Post post, Tag tag, Post postById);
 	void saveComment(Post post);
+	List<Post> getByKeyword(String keyword);
 }
