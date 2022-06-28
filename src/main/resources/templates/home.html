@@ -23,6 +23,7 @@
       <div id="searchForm" class="form">
         <form th:action="@{/post/search}" method="GET">
           <input type="text" class="form-control" name="search" id="search" placeholder="search">
+          <input type="hidden" name="order" th:value="${order}">
           <button id="searchBtn" type="submit" class="btn">Search</button>
         </form>
       </div>
@@ -33,11 +34,15 @@
           </select>
         </form>
       </div>
-      <div class="form">
-        <form action="" method="">
-          <select name="" id="sort" class="form-control">
-            <option value="">Sort</option>
+      <div id="sortForm" class="form">
+        <form th:action="@{'/post/page/'+${pageNumber}}" method="GET">
+          <input type="hidden" name="searchText" th:value="${searchText}"/>
+            <select name="order" id="sort" class="form-control">
+            <option value="" selected disabled>Order By</option>
+            <option value="desc">Newest</option>
+            <option value="asc">Oldest</option>
           </select>
+          <button id="sortButton" type="submit">Sort</button>
         </form>
       </div>
       <div class="form">
@@ -55,7 +60,8 @@
           <div class="card-body">
             <h4 class="card-title" th:text="${post.title}"></h4>
             <p class="card-subtitle"><span th:text="${post.author}"></span>,
-              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>
+<!--              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>-->
+              <span th:text="${post.publishedAt.toString()}"></span>
             </p>
             <p class="card-text" th:text="${post.excerpt}">Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Delectus animi ea rem quaerat
@@ -77,7 +83,7 @@
       </div>
       <div class="col-sm-1">
         <a class="btn previous" th:if="${pageNumber > 1}"
-          th:href="@{'/post/page/' + ${pageNumber - 1} + '?searchText='+${searchText}}">Previous</a>
+          th:href="@{'/post/page/' + ${pageNumber - 1} + '?searchText='+${searchText} + '&order=' + ${order}}">Previous</a>
         <span th:unless="${pageNumber > 1}"><button class="btn previous">Previous</button></span>
       </div>
       <div class="col-sm-1">
@@ -89,7 +95,7 @@
       </div>
       <div class="col-sm-1">
         <a class="btn next" th:if="${pageNumber < totalPages}"
-          th:href="@{'/post/page/' + ${pageNumber + 1} + '?searchText='+${searchText}}">Next</a>
+          th:href="@{'/post/page/' + ${pageNumber + 1} + '?searchText='+${searchText} + '&order=' + ${order}}">Next</a>
         <span th:unless="${pageNumber < totalPages}"><button class="btn next"> Next </button></span>
       </div>
       <!--      <div class="col-sm-1">-->

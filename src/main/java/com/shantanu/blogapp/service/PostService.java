@@ -15,6 +15,6 @@ public interface PostService {
 	void saveComment(Post post);
 //	List<Post> getByKeyword(String keyword);
 
-	Page<Post> findPaginated(int pageNumber, int pageSize, String searchText);
+	Page<Post> findPaginated(int pageNumber, int pageSize, String searchText, String order);
 
 }

@@ -91,17 +91,35 @@ main {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
+}
+
+#sortForm form {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }
 
 #sort,
 #filter,
 #search {
-	width: 10rem;
+	width: fit-content;
 	height: 32px;
 	font-size: 1rem;
 }
 
 #searchBtn {
+	margin: 0.25rem;
+	/* padding: 0 0.5rem; */
+	width: 6rem;
+	padding: 0.25rem 1.5rem;
+	font-size: 1rem;
+	text-align: center;
+}
+
+#sortButton {
 	margin: 0.25rem;
 	/* padding: 0 0.5rem; */
 	width: 6rem;
