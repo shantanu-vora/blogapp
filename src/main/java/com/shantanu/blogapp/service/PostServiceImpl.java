@@ -134,5 +134,30 @@ public class PostServiceImpl implements PostService{
 			return this.postRepository.findByKeyword(pageable, searchText);
 
 		}
+
+	@Override
+	public Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String order, List<Integer> selectedTags) {
+		Pageable pageable;
+		if(order.equals("desc")) {
+			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").descending());
+		} else {
+			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").ascending());
+		}
+
+
+		return this.postRepository.findByFilteredTags(pageable, selectedTags);
+	}
+
+	@Override
+	public String getRequestParamsForTags(List<Integer> selectedTags) {
+		String requestParam = "";
+		for(Integer id: selectedTags) {
+			requestParam += ("&selectedTags=" + id);
+		}
+
+		return requestParam;
+	}
+
+
 }
 

@@ -17,4 +17,8 @@ public interface PostService {
 
 	Page<Post> findPaginated(int pageNumber, int pageSize, String searchText, String order);
 
+
+	Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String order, List<Integer> selectedTags);
+
+	String getRequestParamsForTags(List<Integer> selectedTags);
 }
