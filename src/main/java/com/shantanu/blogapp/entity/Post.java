@@ -156,20 +156,20 @@ public class Post {
 		return theComment;
 	}
 
-	@Override
-	public String toString() {
-		return "Post{" +
-						"id=" + id +
-						", title='" + title + '\'' +
-						", excerpt='" + excerpt + '\'' +
-						", content='" + content + '\'' +
-						", author='" + author + '\'' +
-						", publishedAt=" + publishedAt +
-						", isPublished=" + isPublished +
-						", createdAt=" + createdAt +
-						", updatedAt=" + updatedAt +
-						", tags=" + tags +
-						", comments=" + comments +
-						'}';
-	}
+//	@Override
+//	public String toString() {
+//		return "Post{" +
+//						"id=" + id +
+//						", title='" + title + '\'' +
+//						", excerpt='" + excerpt + '\'' +
+//						", content='" + content + '\'' +
+//						", author='" + author + '\'' +
+//						", publishedAt=" + publishedAt +
+//						", isPublished=" + isPublished +
+//						", createdAt=" + createdAt +
+//						", updatedAt=" + updatedAt +
+//						", tags=" + tags +
+//						", comments=" + comments +
+//						'}';
+//	}
 }

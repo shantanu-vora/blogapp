@@ -96,17 +96,20 @@ public class PostController {
 	public String searchPosts(@RequestParam("search") String searchText, Model model) {
 //		List<Post> searchedList = postService.getByKeyword(searchText.toLowerCase());
 		System.out.println(searchText);
+//		List<Tag> tagList = model.getAttribute("tagList");
 //		model.addAttribute("postList", searchedList);
 		return findPaginated(1, model, searchText.toLowerCase(), "desc");
 	}
 
 	@GetMapping("/page/{pageNumber}")
-	public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model, @RequestParam("searchText") String searchText, @RequestParam("order") String order) {
-		int pageSize = 4;
+	public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model,
+															@RequestParam("searchText") String searchText,
+															@RequestParam("order") String order) {
+		int pageSize = 10;
 		System.out.println(searchText);
 		Page<Post> page = postService.findPaginated(pageNumber, pageSize, searchText, order);
-		System.out.println(page);
-		System.out.println(order);
+
+		List<Tag> tagList = tagService.getAllTags();
 		List<Post> listPosts = page.getContent();
 
 		model.addAttribute("pageNumber", pageNumber);
@@ -115,6 +118,7 @@ public class PostController {
 		model.addAttribute("postList", listPosts);
 		model.addAttribute("searchText", searchText);
 		model.addAttribute("order", order);
+		model.addAttribute("tagList", tagList);
 		return "home";
 
 	}

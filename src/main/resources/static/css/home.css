@@ -134,6 +134,37 @@ main {
 	width: 15rem;
 }
 
+.filter-form {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: flex-start;
+}
+
+.filter-form form {
+	margin-right: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	height: 12rem;
+}
+
+.filter-form h4 {
+	font-weight: 500;
+	margin: 0;
+}
+
+#filter {
+	width: 12rem;
+	height: 60%;
+	text-align: center;
+}
+
+#filterButton {
+	height: 20%;
+	font-size: 1.2rem;
+}
+
 #content-box {
 	display: flex;
 	flex-direction: row;

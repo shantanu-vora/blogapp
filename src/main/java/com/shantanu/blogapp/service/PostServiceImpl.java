@@ -131,9 +131,8 @@ public class PostServiceImpl implements PostService{
 		System.out.println(pageNumber + " " + pageSize + " " + searchText + " " + order);
 //		return postRepository.findPublishedPosts(pageable);
 
+			return this.postRepository.findByKeyword(pageable, searchText);
 
-
-		return this.postRepository.findByKeyword(pageable, searchText);
-	}
+		}
 }
 
