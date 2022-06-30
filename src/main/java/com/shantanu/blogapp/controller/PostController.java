@@ -49,9 +49,6 @@ public class PostController {
 
 	@GetMapping("/")
 	public String showHomePage(Model model) {
-//		List<Post> postList = postService.getAllPosts();
-//		model.addAttribute("postList", postList);
-//		return "home";
 		return findPaginated(1, model, "", "desc");
 	}
 
@@ -92,21 +89,25 @@ public class PostController {
 		return "redirect:/post/";
 	}
 
-//	@GetMapping("/search/{pageNumber}")
 	@GetMapping("/search")
-	public String searchPosts(@RequestParam("search") String searchText, Model model) {
-//		List<Post> searchedList = postService.getByKeyword(searchText.toLowerCase());
+	public String searchPosts(@RequestParam("search") String searchText,
+														@RequestParam(value = "order", defaultValue = "desc") String order,
+														@RequestParam("tagId") List<Integer> tagIdList,
+														Model model) {
+
 		System.out.println(searchText);
-//		List<Tag> tagList = model.getAttribute("tagList");
-//		model.addAttribute("postList", searchedList);
-		return findPaginated(1, model, searchText.toLowerCase(), "desc");
+		if(tagIdList.isEmpty()) {
+			return findPaginated(1, model, searchText.toLowerCase(), order);
+		} else {
+			return findPaginatedWithFilter(1, model, searchText.toLowerCase(), tagIdList, order);
+		}
 	}
 
 	@GetMapping("/page/{pageNumber}")
 	public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model,
 															@RequestParam(value = "searchText") String searchText,
 															@RequestParam(value = "order", defaultValue = "desc") String order) {
-		int pageSize = 1;
+		int pageSize = 10;
 		System.out.println(searchText);
 		Page<Post> page = postService.findPaginated(pageNumber, pageSize, searchText, order);
 
@@ -124,17 +125,16 @@ public class PostController {
 	}
 
 	@GetMapping("/page/{pageNumber}/filter")
-//	@GetMapping("/page/filter")
 	public String findPaginatedWithFilter(@PathVariable("pageNumber") int pageNumber, Model model,
 															@RequestParam(value = "searchText") String searchText,
 															@RequestParam("tagId") List<Integer> tagIdList,
 															@RequestParam(value = "order", required = false, defaultValue = "desc") String order) {
-		int pageSize = 1;
+		int pageSize = 10;
 		System.out.println(pageSize);
 		System.out.println(tagIdList);
 		String requestParams = postService.getRequestParamsForTags(tagIdList);
 
-		Page<Post> page = postService.findPaginatedWithFilter(pageNumber, pageSize, order, tagIdList);
+		Page<Post> page = postService.findPaginatedWithFilter(pageNumber, pageSize, searchText, order, tagIdList);
 		List<Post> postList = page.getContent();
 		List<Tag> tagList = tagService.getAllTags();
 
@@ -150,5 +150,4 @@ public class PostController {
 		model.addAttribute("tagId", tagIdList);
 		return "homefilter";
 	}
-
 }

@@ -145,31 +145,12 @@ public class Post {
 	}
 
 	public Comment getCommentById(int commentId) {
-		System.out.println(this.getId());
 		Comment theComment = null;
 		for(Comment comment: comments) {
-			System.out.println(comment.getId());
 			if(comment.getId() == commentId) {
 				theComment= comment;
 			}
 		}
 		return theComment;
 	}
-
-//	@Override
-//	public String toString() {
-//		return "Post{" +
-//						"id=" + id +
-//						", title='" + title + '\'' +
-//						", excerpt='" + excerpt + '\'' +
-//						", content='" + content + '\'' +
-//						", author='" + author + '\'' +
-//						", publishedAt=" + publishedAt +
-//						", isPublished=" + isPublished +
-//						", createdAt=" + createdAt +
-//						", updatedAt=" + updatedAt +
-//						", tags=" + tags +
-//						", comments=" + comments +
-//						'}';
-//	}
 }

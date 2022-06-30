@@ -24,6 +24,11 @@
       <form th:action="@{/post/search}" method="GET">
         <input type="text" class="form-control" name="search" id="search" placeholder="search">
         <input type="hidden" name="order" th:value="${order}">
+        <select name="tagId" multiple hidden>
+          <!-- <option value="#" disabled>Filter Tags</option> -->
+          <option th:each="tag: ${tagId}" selected th:value="${tag}" th:text="${tag}">
+          </option>
+        </select>
         <button id="searchBtn" type="submit" class="btn">Search</button>
       </form>
     </div>

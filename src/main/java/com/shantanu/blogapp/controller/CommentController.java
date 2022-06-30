@@ -26,7 +26,6 @@ public class CommentController {
 		Post post = postService.getPostById(id);
 		post.addComment(commentService.addCommentDetails(post, comment));
 		postService.saveComment(post);
-
 		return "redirect:/post/{id}";
 	}
 
@@ -38,35 +37,24 @@ public class CommentController {
 																			@ModelAttribute("comment") Comment comment,
 																			Model model
 																			) {
-//		System.out.println(comment);
 		post.setId(postId);
 		Comment oldComment = commentService.getCommentById(commentId);
-//		System.out.println(oldCoLorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas commodi velit repellendus neque! Exercitationem ab eligendi, repellat, facere, molestias ipsa esse repudiandae sequi consequatur eum enim ipsam iure porro magnam!mment);
 		commentService.getOldComment(comment, oldComment);
-
 		return "updatecomment";
 	}
 
 	@PostMapping("/post/{postId}/updateComment/{commentId}")
 	public String updateComment(@PathVariable("commentId") int commentId,
 															@ModelAttribute("comment") Comment comment) {
-		System.out.println(comment);
 		Comment oldComment = commentService.getCommentById(commentId);
-//		commentService.updateComment(comment, oldComment);
-		System.out.println(oldComment);
-
 		commentService.updateComment(comment, oldComment);
 		return "redirect:/post/{postId}";
 	}
 
 	@PostMapping("/post/{postId}/deleteComment/{commentId}")
 	public String deleteComment(@PathVariable("commentId") int commentId) {
-
-//		System.out.println(comment);
-		System.out.println(commentService.getCommentById(commentId));
 		Comment comment = commentService.getCommentById(commentId);
 		commentService.deleteComment(comment);
 		return "redirect:/post/{postId}";
 	}
-
 }

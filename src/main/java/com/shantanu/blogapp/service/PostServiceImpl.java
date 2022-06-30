@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
@@ -100,7 +99,6 @@ public class PostServiceImpl implements PostService{
 	public void enterTags(Post post, Tag tag) {
 		List<String> tagsList = Arrays.asList(tag.getName().split(","));
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-
 		for(String tagName: tagsList) {
 			Tag theTag = new Tag();
 			Tag newTag = tagService.getTagByName(tagName);
@@ -116,10 +114,6 @@ public class PostServiceImpl implements PostService{
 		}
 	}
 
-//	public List<Post> getByKeyword(String keyword) {
-//		return postRepository.findByKeyword(keyword);
-//	}
-
 	@Override
 	public Page<Post> findPaginated(int pageNumber, int pageSize, String searchText, String order) {
 		Pageable pageable;
@@ -128,24 +122,19 @@ public class PostServiceImpl implements PostService{
 		} else {
 			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").ascending());
 		}
-		System.out.println(pageNumber + " " + pageSize + " " + searchText + " " + order);
-//		return postRepository.findPublishedPosts(pageable);
-
-			return this.postRepository.findByKeyword(pageable, searchText);
-
-		}
+		return this.postRepository.findByKeyword(pageable, searchText);
+	}
 
 	@Override
-	public Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String order, List<Integer> tagIdList) {
+	public Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String searchText,
+																						String order, List<Integer> tagIdList) {
 		Pageable pageable;
 		if(order.equals("desc")) {
 			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").descending());
 		} else {
 			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").ascending());
 		}
-
-
-		return this.postRepository.findByFilteredTags(pageable, tagIdList);
+		return this.postRepository.findByFilteredTags(pageable, searchText, tagIdList);
 	}
 
 	@Override
@@ -154,10 +143,6 @@ public class PostServiceImpl implements PostService{
 		for(Integer id: selectedTags) {
 			requestParam += ("&tagId=" + id);
 		}
-
 		return requestParam;
 	}
-
-
 }
-

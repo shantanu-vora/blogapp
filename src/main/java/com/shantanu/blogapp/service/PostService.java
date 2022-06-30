@@ -3,7 +3,6 @@ package com.shantanu.blogapp.service;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.entity.Tag;
 import org.springframework.data.domain.Page;
-
 import java.util.List;
 
 public interface PostService {
@@ -13,12 +12,7 @@ public interface PostService {
 	Post getPostById(int id);
 	void updatePost(Post post, Tag tag, Post postById);
 	void saveComment(Post post);
-//	List<Post> getByKeyword(String keyword);
-
 	Page<Post> findPaginated(int pageNumber, int pageSize, String searchText, String order);
-
-
-	Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String order, List<Integer> selectedTags);
-
+	Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String searchText, String order, List<Integer> selectedTags);
 	String getRequestParamsForTags(List<Integer> selectedTags);
 }
