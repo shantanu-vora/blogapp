@@ -38,10 +38,10 @@
           <option value="asc">Oldest</option>
         </select>
 
-<!--        <p th:each="tags: ${selectedTags}" th:text="${tags}">-->
-        <select name="selectedTags" multiple hidden>
+<!--        <p th:each="tags: ${tagId}" th:text="${tags}">-->
+        <select name="tagId" multiple hidden>
           <!-- <option value="#" disabled>Filter Tags</option> -->
-          <option th:each="tag: ${selectedTags}" selected th:value="${tag}" th:text="${tag}">
+          <option th:each="tag: ${tagId}" selected th:value="${tag}" th:text="${tag}">
 
           </option>
 
@@ -66,7 +66,7 @@
     <h4 align="center">Filter Tags</h4>
     <input type="hidden" name="searchText" th:value="${searchText}">
     <input type="hidden" name="order" th:value="${order}">
-    <select name="selectedTags" id="filter" class="form-control" multiple>
+    <select name="tagId" id="filter" class="form-control" multiple>
       <!-- <option value="#" disabled>Filter Tags</option> -->
       <option th:each="tag: ${tagList}" th:if="${tag.name!=''}" th:value="${tag.id}" th:text="${tag.name}">
 

@@ -104,8 +104,8 @@ public class PostController {
 
 	@GetMapping("/page/{pageNumber}")
 	public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model,
-															@RequestParam("searchText") String searchText,
-															@RequestParam("order") String order) {
+															@RequestParam(value = "searchText") String searchText,
+															@RequestParam(value = "order", defaultValue = "desc") String order) {
 		int pageSize = 1;
 		System.out.println(searchText);
 		Page<Post> page = postService.findPaginated(pageNumber, pageSize, searchText, order);
@@ -126,17 +126,15 @@ public class PostController {
 	@GetMapping("/page/{pageNumber}/filter")
 //	@GetMapping("/page/filter")
 	public String findPaginatedWithFilter(@PathVariable("pageNumber") int pageNumber, Model model,
-															@RequestParam("searchText") String searchText,
-															@RequestParam("selectedTags") List<Integer> selectedTags,
-															@RequestParam("order") String order) {
+															@RequestParam(value = "searchText") String searchText,
+															@RequestParam("tagId") List<Integer> tagIdList,
+															@RequestParam(value = "order", required = false, defaultValue = "desc") String order) {
 		int pageSize = 1;
 		System.out.println(pageSize);
-		System.out.println(selectedTags);
-		String requestParams = postService.getRequestParamsForTags(selectedTags);
+		System.out.println(tagIdList);
+		String requestParams = postService.getRequestParamsForTags(tagIdList);
 
-		//'&selectedTags=27&selectedTags=28&selectedTags=28'
-
-		Page<Post> page = postService.findPaginatedWithFilter(pageNumber, pageSize, order, selectedTags);
+		Page<Post> page = postService.findPaginatedWithFilter(pageNumber, pageSize, order, tagIdList);
 		List<Post> postList = page.getContent();
 		List<Tag> tagList = tagService.getAllTags();
 
@@ -149,7 +147,7 @@ public class PostController {
 		model.addAttribute("order", order);
 		model.addAttribute("tagList", tagList);
 		model.addAttribute("requestParams", requestParams);
-		model.addAttribute("selectedTags", selectedTags);
+		model.addAttribute("tagId", tagIdList);
 		return "homefilter";
 	}
 

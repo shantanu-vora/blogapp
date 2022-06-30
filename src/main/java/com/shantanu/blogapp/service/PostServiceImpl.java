@@ -136,7 +136,7 @@ public class PostServiceImpl implements PostService{
 		}
 
 	@Override
-	public Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String order, List<Integer> selectedTags) {
+	public Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String order, List<Integer> tagIdList) {
 		Pageable pageable;
 		if(order.equals("desc")) {
 			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").descending());
@@ -145,14 +145,14 @@ public class PostServiceImpl implements PostService{
 		}
 
 
-		return this.postRepository.findByFilteredTags(pageable, selectedTags);
+		return this.postRepository.findByFilteredTags(pageable, tagIdList);
 	}
 
 	@Override
 	public String getRequestParamsForTags(List<Integer> selectedTags) {
 		String requestParam = "";
 		for(Integer id: selectedTags) {
-			requestParam += ("&selectedTags=" + id);
+			requestParam += ("&tagId=" + id);
 		}
 
 		return requestParam;
