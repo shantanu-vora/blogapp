@@ -108,6 +108,7 @@ main {
 	width: fit-content;
 	height: 32px;
 	font-size: 1rem;
+	border: 1px solid #000;
 }
 
 #searchBtn {
@@ -126,6 +127,7 @@ main {
 	padding: 0.25rem 1.5rem;
 	font-size: 1rem;
 	text-align: center;
+	border: 1px solid #000;
 }
 
 #search {

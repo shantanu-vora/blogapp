@@ -35,9 +35,14 @@
             <option value="desc">Newest</option>
             <option value="asc">Oldest</option>
           </select>
-          <button id="sortButton" type="submit">Sort</button>
+          <button id="sortButton" class="btn" type="submit">Sort</button>
         </form>
       </div>
+
+      <div class="form">
+        <a th:href="@{/post/newPost}"><button class="btn">Create New Post</button></a>
+      </div>
+
       <div class="form">
         <form action="" method="">
           <input type="submit" id="login" value="login" class="btn">
@@ -47,7 +52,7 @@
   </div>
 
   <div class="filter-form">
-<!--    +${pageNumber}-->
+    <!--    +${pageNumber}-->
     <form th:action="@{'/post/page/' + ${pageNumber} + '/filter'}" method="GET">
       <h4 align="center">Filter Tags</h4>
       <input type="hidden" name="searchText" th:value="${searchText}">
