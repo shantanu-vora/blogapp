@@ -38,7 +38,7 @@ public class Post {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(name="post_tag",
 						 joinColumns=@JoinColumn(name="post_id"),
 						 inverseJoinColumns=@JoinColumn(name="tag_id")

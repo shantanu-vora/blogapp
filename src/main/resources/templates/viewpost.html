@@ -28,8 +28,13 @@
     </div>
   </div>
 
-  <div align="center">
-    <a th:href="@{/post/edit/{id}(id=${post.id})}"><button id="edit" class="btn">Edit</button></a>
+  <div id="editDeleteBtn">
+    <a id="edit" th:href="@{/post/edit/{id}(id=${post.id})}" class="btn">Edit</a>
+    <form action="#" method="POST">
+      <button type="submit" class="btn" th:formaction="@{/post/delete/{id} (id=${post.id})}">
+        Delete
+      </button>
+    </form>
   </div>
 
   <div id="comment-section" th:if="${post.isPublished == true}">
@@ -43,15 +48,15 @@
           <div class="comment">
             <p th:text="${comments.text}"></p>
             <div class="comment-buttons">
-                <a th:href="@{/post/{postId}/comment/{commentId} (postId=${post.id}, commentId=${comments.id})}">
-                  <button type="submit" class="btn">Edit</button>
-                </a>
+              <a th:href="@{/post/{postId}/comment/{commentId} (postId=${post.id}, commentId=${comments.id})}">
+                <button type="submit" class="btn">Edit</button>
+              </a>
 
               <form action="#" method="POST">
-              <button type="submit" class="btn"
-                      th:formaction="@{/post/{postId}/deleteComment/{commentId} (postId=${post.id}, commentId=${comments.id})}">
-                Delete
-              </button>
+                <button type="submit" class="btn"
+                  th:formaction="@{/post/{postId}/deleteComment/{commentId} (postId=${post.id}, commentId=${comments.id})}">
+                  Delete
+                </button>
               </form>
             </div>
           </div>

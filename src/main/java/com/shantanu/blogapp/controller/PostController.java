@@ -89,10 +89,18 @@ public class PostController {
 		return "redirect:/post/";
 	}
 
+	@PostMapping("/delete/{id}")
+	public String deletePost(@PathVariable("id") int postId) {
+		Post post = postService.getPostById(postId);
+		postService.deletePost(post);
+		return "redirect:/post/";
+	}
+
+
 	@GetMapping("/search")
 	public String searchPosts(@RequestParam("search") String searchText,
 														@RequestParam(value = "order", defaultValue = "desc") String order,
-														@RequestParam("tagId") List<Integer> tagIdList,
+														@RequestParam(value = "tagId", required = false, defaultValue = "") List<Integer> tagIdList,
 														Model model) {
 
 		System.out.println(searchText);

@@ -63,6 +63,11 @@ public class PostServiceImpl implements PostService{
 		postRepository.save(post);
 	}
 
+	@Override
+	public void deletePost(Post post) {
+		postRepository.delete(post);
+	}
+
 	void setPostFields(Post post) {
 		String excerpt = post.getContent().length() < 150 ?
 										 post.getContent() :

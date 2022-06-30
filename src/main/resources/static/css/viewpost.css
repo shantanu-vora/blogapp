@@ -34,6 +34,24 @@ h1 {
 	font-size: 1.25rem;
 }
 
+/* #editDeleteBtn form {
+	display: inline;
+} */
+
+#editDeleteBtn {
+	width: 20%;
+	margin: auto;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+}
+
+#editDeleteBtn button {
+	width: 7rem;
+	padding: 0.5rem 0;
+}
+
 p {
 	text-align: center;
 	margin: 2rem 2rem;
@@ -63,8 +81,8 @@ a {
 }
 
 #edit {
-	width: 10%;
-	margin: auto;
+	width: 7rem;
+	margin: 0;
 	padding: 0.5rem 0;
 }
 

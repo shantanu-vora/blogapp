@@ -11,8 +11,11 @@ public interface PostService {
 	List<Post> getAllPosts();
 	Post getPostById(int id);
 	void updatePost(Post post, Tag tag, Post postById);
+	void deletePost(Post post);
 	void saveComment(Post post);
 	Page<Post> findPaginated(int pageNumber, int pageSize, String searchText, String order);
 	Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String searchText, String order, List<Integer> selectedTags);
 	String getRequestParamsForTags(List<Integer> selectedTags);
+
+
 }
