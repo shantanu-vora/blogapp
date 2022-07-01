@@ -153,7 +153,6 @@ public class PostController {
 		model.addAttribute("postList", postList);
 		model.addAttribute("searchText", searchText);
 		model.addAttribute("order", order);
-		model.addAttribute("tagList", tagList);
 		model.addAttribute("requestParams", requestParams);
 		model.addAttribute("tagId", tagIdList);
 		return "homefilter";
