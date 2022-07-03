@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -15,111 +15,120 @@
 </head>
 
 <body>
-  <div id="wrapper">
-    <div id="header">
-      <h1>My Blog Application</h1>
-    </div>
-    <div id="features">
-      <div id="searchForm" class="form">
-        <form th:action="@{/post/search}" method="GET">
-          <input type="text" class="form-control" name="search" id="search" placeholder="search">
-          <input type="hidden" name="order" th:value="${order}">
-          <button id="searchBtn" type="submit" class="btn">Search</button>
-        </form>
-      </div>
-      <div id="sortForm" class="form">
-        <form th:action="@{'/post/page/'+${pageNumber}}" method="GET">
-          <input type="hidden" name="searchText" th:value="${searchText}" />
-          <select name="order" id="sort" class="form-control">
-            <option value="" selected disabled>Order By</option>
-            <option value="desc">Newest</option>
-            <option value="asc">Oldest</option>
-          </select>
-          <button id="sortButton" class="btn" type="submit">Sort</button>
-        </form>
-      </div>
-
-      <div class="form">
-        <a th:href="@{/post/newPost}"><button class="btn">Create New Post</button></a>
-      </div>
-
-      <div class="form">
-        <form action="" method="">
-          <input type="submit" id="login" value="login" class="btn">
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div class="filter-form">
-    <!--    +${pageNumber}-->
-    <form th:action="@{'/post/page/' + ${pageNumber} + '/filter'}" method="GET">
-      <h4 align="center">Filter Tags</h4>
-      <input type="hidden" name="searchText" th:value="${searchText}">
-      <input type="hidden" name="order" th:value="${order}">
-      <select name="tagId" id="filter" class="form-control" multiple>
-        <!-- <option value="#" disabled>Filter Tags</option> -->
-        <option th:each="tag: ${tagList}" th:if="${tag.name!=''}" th:value="${tag.id}" th:text="${tag.name}">
-        </option>
-
-      </select>
-      <button id="filterButton" type="submit">Filter</button>
-    </form>
-  </div>
-
-
-  <main id="container-fluid">
-    <div id="content-box">
-      <div class="box card" th:each="post: ${postList}" th:if="${post.isPublished == true}">
-        <a th:href="@{/post/{id}(id=${post.id})}">
-          <div class="card-body">
-            <h4 class="card-title" th:text="${post.title}"></h4>
-            <p class="card-subtitle"><span th:text="${post.author}"></span>,
-              <!--              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>-->
-              <span th:text="${post.publishedAt.toString()}"></span>
-            </p>
-            <p class="card-text" th:text="${post.excerpt}">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Delectus animi ea rem quaerat
-              totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
-              aliquam amet soluta!</p>
-          </div>
+  <div class="container">
+    <div id="wrapper">
+      <div id="header">
+        <a th:href="@{/}">
+          <h1>My Blog Application</h1>
         </a>
       </div>
+      <div id="features">
+        <div id="searchForm" class="form">
+          <form th:action="@{/search}" method="GET">
+            <input type="text" class="form-control" name="search" id="search" placeholder="search">
+            <input type="hidden" name="order" th:value="${order}">
+            <button id="searchBtn" type="submit" class="btn">Search</button>
+          </form>
+        </div>
+        <div id="sortForm" class="form">
+          <form th:action="@{'/page/'+${pageNumber}}" method="GET">
+            <input type="hidden" name="search" th:value="${search}" />
+            <select name="order" id="sort" class="form-control">
+              <option value="" selected disabled>Order By</option>
+              <option value="desc">Newest</option>
+              <option value="asc">Oldest</option>
+            </select>
+            <button id="sortButton" class="btn" type="submit">Sort</button>
+          </form>
+        </div>
+
+        <div class="form">
+          <a th:href="@{/post/newPost}"><button class="btn">Create New Post</button></a>
+        </div>
+
+        <div class="form" sec:authorize="isAuthenticated()">
+          <form th:action="@{/logout}" method="post">
+            <button type="submit" id="logout" value="logout" class=" login-logout btn">Logout</button>
+          </form>
+
+        </div>
+
+        <div class="form" sec:authorize="isAnonymous()">
+          <a th:href="@{/login}" class="login-logout btn" th:text="'Login'"></a>
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <div class="filter-form">
+      <!--    +${pageNumber}-->
+      <form th:action="@{'/page/' + ${pageNumber} + '/filter'}" method="GET">
+        <h4 align="center">Filter Tags</h4>
+        <input type="hidden" name="search" th:value="${search}">
+        <input type="hidden" name="order" th:value="${order}">
+        <select name="tagId" id="filter" class="form-control" multiple>
+          <!-- <option value="#" disabled>Filter Tags</option> -->
+          <option th:each="tag: ${tagList}" th:if="${tag.name!=''}" th:value="${tag.id}" th:text="${tag.name}">
+          </option>
+
+        </select>
+        <button id="filterButton" type="submit">Filter</button>
+      </form>
     </div>
 
 
+    <main id="container-fluid">
+      <div id="content-box">
+        <div class="box card" th:each="post: ${postList}" th:if="${post.isPublished == true}">
+          <a th:href="@{/post/{id}(id=${post.id})}">
+            <div class="card-body">
+              <h4 class="card-title" th:text="${post.title}"></h4>
+              <p class="card-subtitle"><span th:text="${post.author}"></span>,
+                <!--              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>-->
+                <span th:text="${post.publishedAt.toString()}"></span>
+              </p>
+              <p class="card-text" th:text="${post.excerpt}">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Delectus animi ea rem quaerat
+                totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
+                aliquam amet soluta!</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </main>
 
-  </main>
-
-  <div th:if="${totalPages > 1}">
-    <div class="row col-sm-10">
-      <div class="col-sm-2">
-        <!--        Total Rows: [[${totalPosts}]]-->
+    <div th:if="${totalPages > 1}">
+      <div class="row col-sm-10">
+        <div class="col-sm-2">
+          <!--        Total Rows: [[${totalPosts}]]-->
+        </div>
+        <div class="col-sm-1">
+          <a class="btn previous" th:if="${pageNumber > 1}"
+            th:href="@{'/page/' + ${pageNumber - 1} + '?search='+${search} + '&order=' + ${order}}">Previous</a>
+          <span th:unless="${pageNumber > 1}"><button class="btn previous">Previous</button></span>
+        </div>
+        <div class="col-sm-1">
+          <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+            <a id="pageNumbers" th:if="${pageNumber != i}"
+              th:href="@{'/page/'+${i} + '?search='+${search} + '&order=' + ${order}}">[[${i}]]</a>
+            <span th:unless="${pageNumber != i}">[[${i}]]</span>
+          </span>
+        </div>
+        <div class="col-sm-1">
+          <a class="btn next" th:if="${pageNumber < totalPages}"
+            th:href="@{'/page/' + ${pageNumber + 1} + '?search='+${search} + '&order=' + ${order}}">Next</a>
+          <span th:unless="${pageNumber < totalPages}"><button class="btn next"> Next </button></span>
+        </div>
+        <!--      <div class="col-sm-1">-->
+        <!--        <a th:if="${pageNumber < totalPages}" th:href="@{'/post/page/' + ${totalPages}}">Last</a>-->
+        <!--        <span th:unless="${pageNumber < totalPages}">Last</span>-->
+        <!--      </div>-->
       </div>
-      <div class="col-sm-1">
-        <a class="btn previous" th:if="${pageNumber > 1}"
-          th:href="@{'/post/page/' + ${pageNumber - 1} + '?searchText='+${searchText} + '&order=' + ${order}}">Previous</a>
-        <span th:unless="${pageNumber > 1}"><button class="btn previous">Previous</button></span>
-      </div>
-      <div class="col-sm-1">
-        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-          <a id="pageNumbers" th:if="${pageNumber != i}"
-            th:href="@{'/post/page/'+${i} + '?searchText='+${searchText} + '&order=' + ${order}}">[[${i}]]</a>
-          <span th:unless="${pageNumber != i}">[[${i}]]</span>
-        </span>
-      </div>
-      <div class="col-sm-1">
-        <a class="btn next" th:if="${pageNumber < totalPages}"
-          th:href="@{'/post/page/' + ${pageNumber + 1} + '?searchText='+${searchText} + '&order=' + ${order}}">Next</a>
-        <span th:unless="${pageNumber < totalPages}"><button class="btn next"> Next </button></span>
-      </div>
-      <!--      <div class="col-sm-1">-->
-      <!--        <a th:if="${pageNumber < totalPages}" th:href="@{'/post/page/' + ${totalPages}}">Last</a>-->
-      <!--        <span th:unless="${pageNumber < totalPages}">Last</span>-->
-      <!--      </div>-->
     </div>
+
   </div>
-
 </body>
 
 </html>

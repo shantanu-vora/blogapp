@@ -39,10 +39,9 @@ public class CommentServiceImpl implements CommentService{
 		return comment;
 	}
 
-	public Comment getOldComment(Comment comment, Comment oldComment) {
+	public void getOldComment(Comment comment, Comment oldComment) {
 		comment.setId(oldComment.getId());
 		comment.setText(oldComment.getText());
-		return comment;
 	}
 
 	@Override

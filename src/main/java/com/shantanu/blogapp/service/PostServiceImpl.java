@@ -33,10 +33,10 @@ public class PostServiceImpl implements PostService{
 		enterTags(post, tag);
 		try {
 			postRepository.save(post);
+			return "redirect:/";
 		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
 			return "redirect:/post/newPost";
 		}
-		return null;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService{
 		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
 			return "redirect:/post/newPost";
 		}
-		return null;
+		return "redirect:/drafts";
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class PostServiceImpl implements PostService{
 		} else {
 			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").ascending());
 		}
-		return this.postRepository.findByKeyword(pageable, searchText);
+		return this.postRepository.findBySearchKeyword(pageable, searchText);
 	}
 
 	@Override

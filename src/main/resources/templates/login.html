@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;1,200&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/login.css}">
+  <title>Login Page</title>
+</head>
+
+<body>
+  <header id="header" class="container">
+    <div id="form-header">
+      <h1 id="title">My Blog Application</h1>
+    </div>
+  </header>
+
+  <form id="login-form" th:action="@{/login}" method="post">
+
+    <div th:if="${param.error}">
+      Invalid Username or Password
+    </div>
+
+    <div class="group">
+      <label id="name-label" for="username">Username</label>
+      <input id="username" name="username" type="text" class="control" placeholder="Enter your username" required>
+    </div>
+    <div class="group">
+      <label id="email-label" for="password">Password</label>
+      <input id="password" name="password" type="password" class="control" placeholder="Enter your Password" required>
+    </div>
+
+    <div id="joinNow" class="group">
+      <p>New to BlogApp? <span><a th:href="@{/signup}">Join now</a></span></p>
+    </div>
+
+    <button type="submit" id="submit" class="submit-btn">Login</button>
+
+  </form>
+
+</body>
+
+</html>

@@ -35,8 +35,7 @@ public class CommentController {
 																			@PathVariable("postId") int postId,
 																			@ModelAttribute("post") Post post,
 																			@ModelAttribute("comment") Comment comment,
-																			Model model
-																			) {
+																			Model model) {
 		post.setId(postId);
 		Comment oldComment = commentService.getCommentById(commentId);
 		commentService.getOldComment(comment, oldComment);

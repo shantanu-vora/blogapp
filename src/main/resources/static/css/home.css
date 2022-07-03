@@ -2,8 +2,15 @@ html,
 body {
 	margin-left: 15px;
 	margin-right: 15px;
+	font-size: 11.8px;
 	padding: 0px;
 	font-family: 'Poppins', sans-serif;
+	width: 100%;
+	overflow-x: hidden;
+}
+
+.container {
+	padding: 0 16px;
 }
 
 .container-fluid {
@@ -16,10 +23,11 @@ body {
 
 main {
 	margin-bottom: 4rem;
+	width: 95%;
 }
 
 #wrapper {
-	width: 100%;
+	width: 95%;
 	margin-top: 0px;
 	display: flex;
 	flex-direction: row;
@@ -86,6 +94,11 @@ main {
 	margin: 1rem;
 }
 
+.login-logout {
+	background-color: #efefef;
+	width: fit-content;
+}
+
 #searchForm form {
 	width: 100%;
 	display: flex;
@@ -106,7 +119,7 @@ main {
 #filter,
 #search {
 	width: fit-content;
-	height: 32px;
+	height: 2rem;
 	font-size: 1rem;
 	border: 1px solid #000;
 }
@@ -137,6 +150,7 @@ main {
 }
 
 .filter-form {
+	width: 95%;
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
@@ -205,7 +219,7 @@ main {
 .card-subtitle {
 	margin-top: -0.5rem;
 	margin-bottom: 0.5rem;
-	font-size: 0.8rem;
+	font-size: 1rem;
 }
 
 a {
@@ -224,8 +238,7 @@ a {
 }
 
 .col-sm-10,
-.col-sm-2,
-col-sm-1 {
+.col-sm-2 {
 	position: relative;
 	width: 100%;
 	min-height: 1px;
@@ -235,6 +248,11 @@ col-sm-1 {
 
 .col-sm-1 {
 	margin: 1rem;
+}
+
+.col-sm-1 a {
+	width: fit-content;
+	background-color: #efefef;
 }
 
 .previous {

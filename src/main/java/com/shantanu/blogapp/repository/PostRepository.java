@@ -14,14 +14,14 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
 	@Query(value="select * from post where id in (select p.id from post p join post_tag pt on p.id = pt.post_id join tag t on t.id = pt.tag_id where p.is_published = true and ((lower(t.name) like %?1%) or lower(p.title) like %?1% or lower(p.content) like %?1% or lower(p.author) like %?1%))", nativeQuery = true)
-	Page<Post> findByKeyword(Pageable pageable, String keyword);
+	Page<Post> findBySearchKeyword(Pageable pageable, String search);
 
 	@Query(value="select * from post where id in " +
 					"(select p.id from post p join post_tag pt on p.id = pt.post_id" +
 					" join tag t on t.id = pt.tag_id where p.is_published = true and" +
-					" ((lower(t.name) like %:searchText% or lower(p.title) like %:searchText% or lower(p.content) like %:searchText% or" +
-					" lower(p.author) like %:searchText%)) and t.id in :tagIdList)", nativeQuery = true)
+					" ((lower(t.name) like %:search% or lower(p.title) like %:search% or lower(p.content) like %:search% or" +
+					" lower(p.author) like %:search%)) and t.id in :tagIdList)", nativeQuery = true)
 	Page<Post> findByFilteredTags(Pageable pageable,
-																@Param("searchText") String searchText,
+																@Param("search") String search,
 																@Param("tagIdList") List<Integer> tagIdList);
 }
