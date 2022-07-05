@@ -34,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //						.antMatchers(HttpMethod.POST, "/post/{postId}/updateComment/{commentId}").hasAnyRole("AUTHOR", "ADMIN")
 //						.antMatchers("/", "/login", "/page/**", "/search/*","/post/{id}").permitAll()
 						.antMatchers("/**").permitAll()
+						.and().exceptionHandling().accessDeniedPage("/accessDenied")
 						.and()
 						.formLogin().loginPage("/login").defaultSuccessUrl("/")
 						.and().logout()
