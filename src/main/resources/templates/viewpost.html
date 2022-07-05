@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -14,24 +14,38 @@
   <link rel="stylesheet" th:href="@{/css/viewpost.css}">
 </head>
 
+<!--#authorization.expression('hasRole(''ROLE_ADMIN'')')-->
 <body>
   <div class="box">
     <div class="header">
-      <h5>My Blog Application</h5>
-      <a href="#">Login</a>
+      <h5><a th:href="@{/}">My Blog Application</a></h5>
+      <a th:href="@{/login}" sec:authorize="isAnonymous()">Login</a>
+      <div class="form" sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+          <button type="submit" id="logout" value="logout" class=" login-logout btn">Logout</button>
+        </form>
+
+      </div>
     </div>
     <div class="box-body">
-      <h1 th:text="${post.title}"></h1>
-      <p><span th:text="${post.author}"></span>, <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>
+      <h1 id="post-title" th:text="${post.title}"></h1>
+      <p class="post-subtitle">
+        <i><span th:text="'Posted on ' + ${post.publishedAt.toString().split(' ')[0]}"></span>,
+          <span th:text="' by ' + ${post.author}"></span></i>
+      </p>
+      <p class="post-subtitle">
+        <i><span th:each="tag: ${post.tags}" th:if="${tag.name != ''}" th:text="'#' + ${tag.name} + ' '"></span></i>
       </p>
       <p id="content" th:text="${post.content}"></p>
     </div>
   </div>
 
-  <div id="editDeleteBtn">
+
+  <div id="editDeleteBtn" th:if="${post.author == currentUser or #authorization.expression('hasRole(''ADMIN'')')}">
     <a id="edit" th:href="@{/post/edit/{id}(id=${post.id})}" class="btn">Edit</a>
-    <form action="#" method="POST">
-      <button type="submit" class="btn" th:formaction="@{/post/delete/{id} (id=${post.id})}">
+    <form th:action="@{/post/delete/{id} (id=${post.id})}" method="POST">
+<!--      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+      <button type="submit" class="btn">
         Delete
       </button>
     </form>
@@ -45,47 +59,53 @@
       <!-- <div> -->
       <ul>
         <li th:each="comments: ${post.comments}">
+          <!--          <div>-->
+          <p id="comment-user-name" th:text="${comments.name}"></p>
           <div class="comment">
             <p th:text="${comments.text}"></p>
-            <div class="comment-buttons">
+
+            <div class="comment-buttons" th:if="${post.author == currentUser or #authorization.expression('hasRole(''ADMIN'')')}">
               <a th:href="@{/post/{postId}/comment/{commentId} (postId=${post.id}, commentId=${comments.id})}">
                 <button type="submit" class="btn">Edit</button>
               </a>
 
-              <form action="#" method="POST">
-                <button type="submit" class="btn"
-                  th:formaction="@{/post/{postId}/deleteComment/{commentId} (postId=${post.id}, commentId=${comments.id})}">
+              <form th:action="@{/post/{postId}/deleteComment/{commentId} (postId=${post.id}, commentId=${comments.id})}" method="POST">
+<!--                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+                <button type="submit" class="btn">
                   Delete
                 </button>
               </form>
             </div>
           </div>
+          <!--          </div>-->
         </li>
       </ul>
       <!-- </div> -->
     </div>
 
+    <!--    <div class="comment-form" sec:authorize="isAuthenticated()">-->
     <div class="comment-form">
       <h3>Comment Form</h3>
-      <form id="form" th:object="${comment}" method="post">
-        <div class="form-group">
+      <form th:action="@{/post/saveComment/{id}(id=${post.id})}" id="form" th:object="${comment}" method="post">
+        <div class="form-group" sec:authorize="isAnonymous()">
           <label for="name">Name</label>
           <input type="text" class="form-control" name="name" th:field="*{name}" id="name" placeholder="Name">
           <!--          <input type="text" name="id" th:value="${post.id}" />-->
         </div>
-        <div class="form-group">
+<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+        <div class="form-group" sec:authorize="isAnonymous()">
           <label for="email">Email</label>
           <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Email">
         </div>
 
         <div class="form-group">
           <label for="comment-text"></label>
-          <textarea class="form-control" id="comment-text" rows="10" name="text"
-            placeholder="Make a comment"></textarea>
+          <textarea class="form-control" id="comment-text" rows="10" name="text" th:field="*{text}"
+            placeholder="Make a comment" required></textarea>
         </div>
 
         <div class="form-group" align="center">
-          <button type="submit" th:formaction="@{/post/saveComment/{id}(id=${post.id})}" class="btn">Submit</button>
+          <button type="submit" class="btn">Submit</button>
         </div>
       </form>
     </div>

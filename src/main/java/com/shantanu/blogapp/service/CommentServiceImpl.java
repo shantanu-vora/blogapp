@@ -1,5 +1,6 @@
 package com.shantanu.blogapp.service;
 
+import com.shantanu.blogapp.config.UserDetailsImpl;
 import com.shantanu.blogapp.entity.Comment;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.repository.CommentRepository;
@@ -15,9 +16,13 @@ public class CommentServiceImpl implements CommentService{
 	private CommentRepository commentRepository;
 
 	@Override
-	public Comment addCommentDetails(Post post, Comment comment) {
+	public Comment addCommentDetails(Post post, Comment comment, UserDetailsImpl currentUser) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		comment.setCreatedAt(currentTimestamp);
+		if(currentUser != null) {
+			comment.setName(currentUser.getUsername());
+			comment.setEmail(currentUser.getEmail());
+		}
 		comment.setPostId(post.getId());
 		return comment;
 	}
@@ -30,7 +35,7 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public Comment getCommentById(int id) {
 		Optional<Comment> optionalComment = commentRepository.findById(id);
-		Comment comment = null;
+		Comment comment;
 		if(optionalComment.isPresent()) {
 			comment = optionalComment.get();
 		} else {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -20,6 +20,7 @@
       <a th:href="@{/}">
         <h1>My Blog Application</h1>
       </a>
+      <div sec:authorize="isAuthenticated()">Authenticated as <span sec:authentication="name"></span></div>
     </div>
     <div id="features">
       <div id="searchForm" class="form">
@@ -60,6 +61,10 @@
 
       <div class="form">
         <a th:href="@{/post/newPost}"><button class="btn">Create New Post</button></a>
+      </div>
+
+      <div class="form">
+        <a th:href="@{/post/drafts}"><button class="btn">Drafts</button></a>
       </div>
 
       <div class="form" sec:authorize="isAuthenticated()">
@@ -113,10 +118,14 @@
         <a th:href="@{/post/{id}(id=${post.id})}">
           <div class="card-body">
             <h4 class="card-title" th:text="${post.title}"></h4>
-            <p class="card-subtitle"><span th:text="${post.author}"></span>,
-              <!--              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>-->
-              <span th:text="${post.publishedAt.toString()}"></span>
-            </p>
+            <b><i>
+                <p class="card-subtitle"><span
+                    th:text="'Posted on ' + ${post.publishedAt.toString().split(' ')[0]}"></span>,
+                  <!--              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>-->
+                  <span th:text="' by ' + ${post.author}"></span>
+                </p>
+              </i></b>
+            <i><span class="card-subtitle" th:each="tag: ${post.tags}" th:text="'#' + ${tag.name} + ' '"></span></i>
             <p class="card-text" th:text="${post.excerpt}">Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Delectus animi ea rem quaerat
               totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex

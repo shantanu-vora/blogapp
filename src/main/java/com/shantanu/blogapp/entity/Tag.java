@@ -26,8 +26,7 @@ public class Tag {
 	@ManyToMany(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(name="post_tag",
 						 joinColumns=@JoinColumn(name="tag_id"),
-						 inverseJoinColumns=@JoinColumn(name="post_id")
-						)
+						 inverseJoinColumns=@JoinColumn(name="post_id"))
 	private List<Post> posts = new ArrayList<>();
 
 	public int getId() {

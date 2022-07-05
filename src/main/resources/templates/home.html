@@ -21,6 +21,8 @@
         <a th:href="@{/}">
           <h1>My Blog Application</h1>
         </a>
+        <!--        <span th:text ="${#authentication.getPrincipal().getUser()}"></span>-->
+        <div sec:authorize="isAuthenticated()">Authenticated as <span sec:authentication="name"></span></div>
       </div>
       <div id="features">
         <div id="searchForm" class="form">
@@ -46,6 +48,10 @@
           <a th:href="@{/post/newPost}"><button class="btn">Create New Post</button></a>
         </div>
 
+        <div class="form">
+          <a th:href="@{/post/drafts}"><button class="btn">Drafts</button></a>
+        </div>
+
         <div class="form" sec:authorize="isAuthenticated()">
           <form th:action="@{/logout}" method="post">
             <button type="submit" id="logout" value="logout" class=" login-logout btn">Logout</button>
@@ -56,9 +62,6 @@
         <div class="form" sec:authorize="isAnonymous()">
           <a th:href="@{/login}" class="login-logout btn" th:text="'Login'"></a>
         </div>
-
-
-
       </div>
     </div>
 
@@ -85,14 +88,17 @@
           <a th:href="@{/post/{id}(id=${post.id})}">
             <div class="card-body">
               <h4 class="card-title" th:text="${post.title}"></h4>
-              <p class="card-subtitle"><span th:text="${post.author}"></span>,
-                <!--              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>-->
-                <span th:text="${post.publishedAt.toString()}"></span>
-              </p>
-              <p class="card-text" th:text="${post.excerpt}">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Delectus animi ea rem quaerat
-                totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
-                aliquam amet soluta!</p>
+              <b><i>
+                  <p class="card-subtitle"><span
+                      th:text="'Posted on ' + ${post.publishedAt.toString().split(' ')[0]}"></span>,
+                    <!--              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>-->
+                    <span th:text="' by ' + ${post.author}"></span>
+                  </p>
+                </i></b>
+
+              <i><span class="card-subtitle" th:each="tag: ${post.tags}" th:if="${tag.name != ''}"
+                  th:text="'#' + ${tag.name} + ' '"></span></i>
+              <p class="card-text" th:text="${post.excerpt}"></p>
             </div>
           </a>
         </div>

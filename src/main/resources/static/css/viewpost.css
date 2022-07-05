@@ -23,7 +23,7 @@ h1 {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin: 2rem;
+	margin: 1rem 2rem;
 }
 
 .header a {
@@ -37,6 +37,16 @@ h1 {
 /* #editDeleteBtn form {
 	display: inline;
 } */
+
+#post-title {
+	font-size: x-large;
+	font-weight: 500;
+	margin: 0.5rem;
+}
+
+.post-subtitle {
+	margin: 0;
+}
 
 #editDeleteBtn {
 	width: 20%;
@@ -61,6 +71,11 @@ p {
 
 .box #content {
 	text-align: justify;
+}
+
+#comment-user-name {
+	font-size: small;
+	margin: 0;
 }
 
 .btn {

@@ -6,8 +6,8 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -20,7 +20,7 @@ public class TagServiceImpl implements TagService{
 	public String saveTag(Tag tag) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		try {
-			List<String> tagsList = Arrays.asList(tag.getName().split(","));
+//			List<String> tagsList = Arrays.asList(tag.getName().split(","));
 			tag.setCreatedAt(currentTimestamp);
 			tagRepository.save(tag);
 		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
@@ -29,17 +29,17 @@ public class TagServiceImpl implements TagService{
 		return null;
 	}
 
-	@Override
-	public String updateTag(Tag tag) {
-		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		try {
-			tag.setUpdatedAt(currentTimestamp);
-			tagRepository.save(tag);
-		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
-			return "redirect:/post/" + tag.getId();
-		}
-		return "redirect:/post/" + tag.getId();
-	}
+//	@Override
+//	public String updateTag(Tag tag) {
+//		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+//		try {
+//			tag.setUpdatedAt(currentTimestamp);
+//			tagRepository.save(tag);
+//		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
+//			return "redirect:/post/" + tag.getId();
+//		}
+//		return "redirect:/post/" + tag.getId();
+//	}
 
 	@Override
 	public Tag getTagByName(String name) {

@@ -1,7 +1,7 @@
 package com.shantanu.blogapp.controller;
 
 import com.shantanu.blogapp.entity.User;
-import com.shantanu.blogapp.service.UserService;
+import com.shantanu.blogapp.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,17 +10,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
 	@Autowired
-	UserService userService;
+	private UserDetailsServiceImpl userDetailService;
 
 	@PostMapping("/registerUser")
 	public String saveUserData(User user) {
-
-		System.out.println("Username: " + user.getUsername() +
-											 " Password: " + user.getPassword() +
-											 " Email: " + user.getEmail());
-
-		userService.saveUserDetails(user);
-
-		return "redirect:/login";
+		Boolean isUserRegistered = userDetailService.saveUserDetails(user);
+		if(!isUserRegistered) {
+			return "redirect:/signup?error";
+		} else {
+			return "redirect:/login";
+		}
 	}
 }

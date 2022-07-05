@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
@@ -27,22 +29,30 @@ public class PostServiceImpl implements PostService{
 	private TagService tagService;
 
 	@Override
-	public String savePost(Post post, Tag tag) {
+	public void savePost(Post post, Tag tag, Principal principal) {
+		String username = principal.getName();
 		post.setPublished(true);
-		setPostFields(post);
+		setPostFields(post, username);
 		enterTags(post, tag);
 		try {
 			postRepository.save(post);
-			return "redirect:/";
 		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
-			return "redirect:/post/newPost";
+			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public String saveDraft(Post post, Tag tag) {
+	public String saveDraft(Post post, Post oldPost, Tag tag, Principal principal) {
+		String username = principal.getName();
 		post.setPublished(false);
-		setPostFields(post);
+		setPostFields(post, username);
+		if(oldPost != null) {
+			Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+			post.setPublishedAt(oldPost.getPublishedAt());
+			post.setCreatedAt(oldPost.getCreatedAt());
+			post.setUpdatedAt(currentTimestamp);
+			post.setAuthor(oldPost.getAuthor());
+		}
 		enterTags(post, tag);
 		try {
 			postRepository.save(post);
@@ -54,10 +64,14 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public void updatePost(Post post, Tag tag, Post oldPost) {
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		List<Comment> commentList = oldPost.getComments();
-		post.setPublished(true);
-		setPostFields(post);
+		String username = oldPost.getAuthor();
+		post.setPublished(oldPost.isPublished());
+		setPostFields(post, username);
 		post.setCreatedAt(oldPost.getCreatedAt());
+		post.setPublishedAt(oldPost.getPublishedAt());
+		post.setUpdatedAt(currentTimestamp);
 		post.setComments(commentList);
 		enterTags(post, tag);
 		postRepository.save(post);
@@ -68,26 +82,26 @@ public class PostServiceImpl implements PostService{
 		postRepository.delete(post);
 	}
 
-	void setPostFields(Post post) {
+	void setPostFields(Post post, String username) {
 		String excerpt = post.getContent().length() < 150 ?
 										 post.getContent() :
 										 post.getContent().substring(0, 150)+"...";
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		post.setAuthor("Shantanu");
+		post.setAuthor(username);
 		post.setPublishedAt(currentTimestamp);
 		post.setCreatedAt(currentTimestamp);
 		post.setExcerpt(excerpt);
 	}
 
-	@Override
-	public List<Post> getAllPosts() {
-		return postRepository.findAll();
-	}
+//	@Override
+//	public List<Post> getAllPosts() {
+//		return postRepository.findAll();
+//	}
 
 	@Override
 	public Post getPostById(int id) {
 		Optional<Post> optionalPost = postRepository.findById(id);
-		Post post = null;
+		Post post;
 		if(optionalPost.isPresent()) {
 			post = optionalPost.get();
 		} else {
@@ -128,6 +142,17 @@ public class PostServiceImpl implements PostService{
 			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").ascending());
 		}
 		return this.postRepository.findBySearchKeyword(pageable, searchText);
+	}
+
+	@Override
+	public Page<Post> findPaginated(int pageNumber, int pageSize, String searchText, String order, Boolean isPublished) {
+		Pageable pageable;
+		if(order.equals("desc")) {
+			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").descending());
+		} else {
+			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").ascending());
+		}
+		return this.postRepository.findBySearchKeyword(pageable, searchText, isPublished);
 	}
 
 	@Override

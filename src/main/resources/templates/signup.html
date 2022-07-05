@@ -17,14 +17,14 @@
 <body>
   <header id="header" class="container">
     <div id="form-header">
-      <h1 id="title">My Blog Application</h1>
+      <h1 id="title"><a th:href="@{/}">My Blog Application</a></h1>
     </div>
   </header>
 
   <form id="login-form" th:action="@{/registerUser}" th:object="${user}" method="post">
 
     <div th:if="${param.error}">
-      Username already exists
+      Username or Email already exists
     </div>
 
     <div class="group">
