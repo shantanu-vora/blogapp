@@ -1,6 +1,6 @@
 package com.shantanu.blogapp.controller;
 
-import com.shantanu.blogapp.config.UserDetailsImpl;
+import com.shantanu.blogapp.config.UserDetails;
 import com.shantanu.blogapp.entity.Comment;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.entity.Tag;
@@ -11,7 +11,6 @@ import com.shantanu.blogapp.service.PostService;
 import com.shantanu.blogapp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,6 @@ public class PostController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
 	private UserDetails userDetails;
 
 	@GetMapping("/newPost")
@@ -66,7 +64,7 @@ public class PostController {
 	@GetMapping("/{id}")
 	public String viewPost(@PathVariable("id") int id, Model model,
 												 @ModelAttribute("comment") Comment comment,
-												 @AuthenticationPrincipal UserDetailsImpl currentUser) {
+												 @AuthenticationPrincipal UserDetails currentUser) {
 		Post post = postService.getPostById(id);
 		model.addAttribute("post", post);
 		if(currentUser != null) {
@@ -104,12 +102,12 @@ public class PostController {
 
 	@PostMapping("/delete/{id}")
 	public String deletePost(@PathVariable("id") int postId, @AuthenticationPrincipal UserDetails currentUser) {
-		Post post = postService.getPostById(postId);
+		Post postById = postService.getPostById(postId);
 		User user = userRepository.findByUsername(currentUser.getUsername()).get();
-		if(!currentUser.getUsername().equals(post.getAuthor()) && !user.getRole().equals("ROLE_ADMIN")) {
+		if(!currentUser.getUsername().equals(postById.getAuthor()) && !user.getRole().equals("ROLE_ADMIN")) {
 			throw new RuntimeException("You are not authorized to view this page");
 		}
-		postService.deletePost(post);
+		postService.deletePost(postById);
 		return "redirect:/";
 	}
 }

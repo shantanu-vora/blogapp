@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -93,11 +92,6 @@ public class PostServiceImpl implements PostService{
 		post.setExcerpt(excerpt);
 	}
 
-//	@Override
-//	public List<Post> getAllPosts() {
-//		return postRepository.findAll();
-//	}
-
 	@Override
 	public Post getPostById(int id) {
 		Optional<Post> optionalPost = postRepository.findById(id);
@@ -134,7 +128,7 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Page<Post> findPaginated(int pageNumber, int pageSize, String searchText, String order) {
+	public Page<Post> getPaginatedPosts(int pageNumber, int pageSize, String searchText, String order) {
 		Pageable pageable;
 		if(order.equals("desc")) {
 			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").descending());
@@ -145,7 +139,7 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Page<Post> findPaginated(int pageNumber, int pageSize, String searchText, String order, Boolean isPublished) {
+	public Page<Post> getPaginatedPosts(int pageNumber, int pageSize, String searchText, String order, Boolean isPublished) {
 		Pageable pageable;
 		if(order.equals("desc")) {
 			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").descending());
@@ -156,8 +150,8 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Page<Post> findPaginatedWithFilter(int pageNumber, int pageSize, String searchText,
-																						String order, List<Integer> tagIdList) {
+	public Page<Post> getPaginatedPostsWithFilter(int pageNumber, int pageSize, String searchText,
+																								String order, List<Integer> tagIdList) {
 		Pageable pageable;
 		if(order.equals("desc")) {
 			pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("published_at").descending());

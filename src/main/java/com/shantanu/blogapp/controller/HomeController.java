@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.security.Principal;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import java.util.List;
 public class HomeController {
 
 	private static final int PAGE_SIZE = 10;
+
 	@Autowired
 	private PostService postService;
 
@@ -29,12 +29,12 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String showHomePage(Model model) {
-		return findPaginated(1, model, "", "desc");
+		return getPaginatedPosts(1, model, "", "desc");
 	}
 
 	@GetMapping("/post/drafts")
 	public String showDraftsPage(Model model, Principal principal) {
-		return findPaginated(1, model, "", "desc", false, principal);
+		return getPaginatedPosts(1, model, "", "desc", false, principal);
 	}
 
 	@GetMapping("/search")
@@ -43,17 +43,17 @@ public class HomeController {
 														@RequestParam(value = "tagId", required = false, defaultValue = "") List<Integer> tagIdList,
 														Model model) {
 		if(tagIdList.isEmpty()) {
-			return findPaginated(1, model, search.toLowerCase(), order);
+			return getPaginatedPosts(1, model, search.toLowerCase(), order);
 		} else {
-			return findPaginatedWithFilter(1, model, search.toLowerCase(), tagIdList, order);
+			return getPaginatedPostsWithFilter(1, model, search.toLowerCase(), tagIdList, order);
 		}
 	}
 
 	@GetMapping("/page/{pageNumber}")
-	public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model,
-															@RequestParam(value = "search") String search,
-															@RequestParam(value = "order", defaultValue = "desc") String order) {
-		Page<Post> page = postService.findPaginated(pageNumber, PAGE_SIZE, search, order);
+	public String getPaginatedPosts(@PathVariable("pageNumber") int pageNumber, Model model,
+																	@RequestParam(value = "search") String search,
+																	@RequestParam(value = "order", defaultValue = "desc") String order) {
+		Page<Post> page = postService.getPaginatedPosts(pageNumber, PAGE_SIZE, search, order);
 		List<Post> postList = page.getContent();
 		List<Tag> tagList = tagService.getAllTags();
 		model.addAttribute("pageNumber", pageNumber);
@@ -67,17 +67,17 @@ public class HomeController {
 	}
 
 	@GetMapping("/page/{pageNumber}/filter")
-	public String findPaginatedWithFilter(@PathVariable("pageNumber") int pageNumber, Model model,
-																				@RequestParam(value = "search") String search,
-																				@RequestParam(value = "tagId", required = false, defaultValue = "") List<Integer> tagIdList,
-																				@RequestParam(value = "order", required = false, defaultValue = "desc") String order) {
+	public String getPaginatedPostsWithFilter(@PathVariable("pageNumber") int pageNumber, Model model,
+																						@RequestParam(value = "search") String search,
+																						@RequestParam(value = "tagId", required = false, defaultValue = "") List<Integer> tagIdList,
+																						@RequestParam(value = "order", required = false, defaultValue = "desc") String order) {
 		List<Tag> tagList = tagService.getAllTags();
 		if(tagIdList.isEmpty()) {
 			for(Tag tag: tagList) {
 				tagIdList.add(tag.getId());
 			}
 		}
-		Page<Post> page = postService.findPaginatedWithFilter(pageNumber, PAGE_SIZE, search, order, tagIdList);
+		Page<Post> page = postService.getPaginatedPostsWithFilter(pageNumber, PAGE_SIZE, search, order, tagIdList);
 		List<Post> postList = page.getContent();
 		String requestParams = postService.getRequestParamsForTags(tagIdList);
 		model.addAttribute("pageNumber", pageNumber);
@@ -93,12 +93,12 @@ public class HomeController {
 	}
 
 	@GetMapping("/post/drafts/page/{pageNumber}")
-	public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model,
-															@RequestParam(value = "search") String search,
-															@RequestParam(value = "order", defaultValue = "desc") String order,
-															@RequestParam(value = "isPublished", required = false, defaultValue = "false") Boolean isPublished,
-															Principal principal) {
-		Page<Post> page = postService.findPaginated(pageNumber, PAGE_SIZE, search, order, isPublished);
+	public String getPaginatedPosts(@PathVariable("pageNumber") int pageNumber, Model model,
+																	@RequestParam(value = "search") String search,
+																	@RequestParam(value = "order", defaultValue = "desc") String order,
+																	@RequestParam(value = "isPublished", required = false, defaultValue = "false") Boolean isPublished,
+																	Principal principal) {
+		Page<Post> page = postService.getPaginatedPosts(pageNumber, PAGE_SIZE, search, order, isPublished);
 		List<Post> postList = page.getContent();
 		List<Tag> tagList = tagService.getAllTags();
 		model.addAttribute("pageNumber", pageNumber);

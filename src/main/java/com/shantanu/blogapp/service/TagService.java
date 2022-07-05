@@ -5,7 +5,6 @@ import java.util.List;
 
 public interface TagService {
 	String saveTag(Tag tag);
-//	String updateTag(Tag tag);
 	Tag getTagByName(String name);
 	List<Tag> getAllTags();
 }

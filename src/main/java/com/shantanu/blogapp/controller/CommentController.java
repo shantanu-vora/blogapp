@@ -1,6 +1,6 @@
 package com.shantanu.blogapp.controller;
 
-import com.shantanu.blogapp.config.UserDetailsImpl;
+import com.shantanu.blogapp.config.UserDetails;
 import com.shantanu.blogapp.entity.Comment;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.entity.User;
@@ -9,9 +9,7 @@ import com.shantanu.blogapp.service.CommentService;
 import com.shantanu.blogapp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,24 +29,22 @@ public class CommentController {
 
 	@PostMapping("/post/saveComment/{id}")
 	public String saveComment(@PathVariable("id") int id, Comment comment,
-														@AuthenticationPrincipal UserDetailsImpl currentUser) {
+														@AuthenticationPrincipal UserDetails currentUser) {
 		Post post = postService.getPostById(id);
 		post.addComment(commentService.addCommentDetails(post, comment, currentUser));
 		postService.saveComment(post);
 		return "redirect:/post/{id}";
 	}
 
-
 	@GetMapping("/post/{postId}/comment/{commentId}")
 	public String showUpdateCommentForm(@PathVariable("commentId") int commentId,
 																			@PathVariable("postId") int postId,
 																			@ModelAttribute("post") Post post,
 																			@ModelAttribute("comment") Comment comment,
-																			@AuthenticationPrincipal UserDetails currentUser,
-																			Model model) {
-		Post oldPost = postService.getPostById(postId);
+																			@AuthenticationPrincipal UserDetails currentUser) {
+		Post postById = postService.getPostById(postId);
 		User user = userRepository.findByUsername(currentUser.getUsername()).get();
-		if(!currentUser.getUsername().equals(oldPost.getAuthor()) &&  !user.getRole().equals("ROLE_ADMIN")) {
+		if(!currentUser.getUsername().equals(postById.getAuthor()) &&  !user.getRole().equals("ROLE_ADMIN")) {
 			throw new RuntimeException("You are not authorized to view this page");
 		}
 		post.setId(postId);
@@ -69,9 +65,9 @@ public class CommentController {
 	public String deleteComment(@PathVariable("postId") int postId,
 															@PathVariable("commentId") int commentId,
 															@AuthenticationPrincipal UserDetails currentUser) {
-		Post post = postService.getPostById(postId);
+		Post postById = postService.getPostById(postId);
 		User user = userRepository.findByUsername(currentUser.getUsername()).get();
-		if(!currentUser.getUsername().equals(post.getAuthor()) &&  !user.getRole().equals("ROLE_ADMIN")) {
+		if(!currentUser.getUsername().equals(postById.getAuthor()) &&  !user.getRole().equals("ROLE_ADMIN")) {
 			throw new RuntimeException("You are not authorized to view this page");
 		}
 		Comment comment = commentService.getCommentById(commentId);
