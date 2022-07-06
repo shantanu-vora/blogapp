@@ -1,6 +1,6 @@
 package com.shantanu.blogapp.controller;
 
-import com.shantanu.blogapp.config.UserDetails;
+import com.shantanu.blogapp.config.UserDetailsImpl;
 import com.shantanu.blogapp.entity.Comment;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.entity.User;
@@ -29,7 +29,7 @@ public class CommentController {
 
 	@PostMapping("/post/saveComment/{id}")
 	public String saveComment(@PathVariable("id") int id, Comment comment,
-														@AuthenticationPrincipal UserDetails currentUser) {
+														@AuthenticationPrincipal UserDetailsImpl currentUser) {
 		Post post = postService.getPostById(id);
 		post.addComment(commentService.addCommentDetails(post, comment, currentUser));
 		postService.saveComment(post);
@@ -41,7 +41,7 @@ public class CommentController {
 																			@PathVariable("postId") int postId,
 																			@ModelAttribute("post") Post post,
 																			@ModelAttribute("comment") Comment comment,
-																			@AuthenticationPrincipal UserDetails currentUser) {
+																			@AuthenticationPrincipal UserDetailsImpl currentUser) {
 		Post postById = postService.getPostById(postId);
 		User user = userRepository.findByUsername(currentUser.getUsername()).get();
 		if(!currentUser.getUsername().equals(postById.getAuthor()) &&  !user.getRole().equals("ROLE_ADMIN")) {
@@ -64,7 +64,7 @@ public class CommentController {
 	@PostMapping("/post/{postId}/deleteComment/{commentId}")
 	public String deleteComment(@PathVariable("postId") int postId,
 															@PathVariable("commentId") int commentId,
-															@AuthenticationPrincipal UserDetails currentUser) {
+															@AuthenticationPrincipal UserDetailsImpl currentUser) {
 		Post postById = postService.getPostById(postId);
 		User user = userRepository.findByUsername(currentUser.getUsername()).get();
 		if(!currentUser.getUsername().equals(postById.getAuthor()) &&  !user.getRole().equals("ROLE_ADMIN")) {

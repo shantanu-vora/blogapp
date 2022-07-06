@@ -6,7 +6,6 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -17,15 +16,14 @@ public class TagServiceImpl implements TagService{
 	private TagRepository tagRepository;
 
 	@Override
-	public String saveTag(Tag tag) {
+	public void saveTag(Tag tag) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		try {
 			tag.setCreatedAt(currentTimestamp);
 			tagRepository.save(tag);
 		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
-			return "redirect:/post/newPost";
+			e.printStackTrace();
 		}
-		return null;
 	}
 
 	@Override

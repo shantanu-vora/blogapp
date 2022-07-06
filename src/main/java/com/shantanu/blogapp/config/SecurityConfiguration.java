@@ -26,13 +26,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-						.antMatchers( "/post/newPost").authenticated()
-						.antMatchers("/post/edit/*").authenticated()
-						.antMatchers("/post/drafts/**").authenticated()
-//						.antMatchers("/post/**").authenticated()
+						.antMatchers( "/post/newPost", "/post/edit/*", "/post/drafts/**").authenticated()
 						.antMatchers(HttpMethod.POST, "/post/delete/{id}").authenticated()
-//						.antMatchers(HttpMethod.POST, "/post/{postId}/updateComment/{commentId}").hasAnyRole("AUTHOR", "ADMIN")
-//						.antMatchers("/", "/login", "/page/**", "/search/*","/post/{id}").permitAll()
 						.antMatchers("/**").permitAll()
 						.and().exceptionHandling().accessDeniedPage("/accessDenied")
 						.and()

@@ -41,7 +41,7 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public String saveDraft(Post post, Post oldPost, Tag tag, Principal principal) {
+	public void saveDraft(Post post, Post oldPost, Tag tag, Principal principal) {
 		String username = principal.getName();
 		post.setPublished(false);
 		setPostFields(post, username);
@@ -56,9 +56,8 @@ public class PostServiceImpl implements PostService{
 		try {
 			postRepository.save(post);
 		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
-			return "redirect:/post/newPost";
+			e.printStackTrace();
 		}
-		return "redirect:/drafts";
 	}
 
 	@Override
