@@ -28,7 +28,6 @@
           <input type="text" class="form-control" name="search" id="search" placeholder="search">
           <input type="hidden" name="order" th:value="${order}">
           <select name="tagId" multiple hidden>
-            <!-- <option value="#" disabled>Filter Tags</option> -->
             <option th:each="tag: ${tagId}" selected th:value="${tag}" th:text="${tag}">
             </option>
           </select>
@@ -36,25 +35,17 @@
         </form>
       </div>
       <div id="sortForm" class="form">
-        <!--      +${pageNumber}-->
         <form th:action="@{'/page/' + ${pageNumber} + '/filter'}" method="GET">
-          <!--        <input type="hidden" name="" th:value="${requestParams}">-->
           <input type="hidden" name="search" th:value="${search}" />
           <select name="order" id="sort" class="form-control">
             <option value="" selected disabled>Order By</option>
             <option value="desc">Newest</option>
             <option value="asc">Oldest</option>
           </select>
-
-          <!--        <p th:each="tags: ${tagId}" th:text="${tags}">-->
           <select name="tagId" multiple hidden>
-            <!-- <option value="#" disabled>Filter Tags</option> -->
             <option th:each="tag: ${tagId}" selected th:value="${tag}" th:text="${tag}">
-
             </option>
-
           </select>
-
           <button id="sortButton" type="submit">Sort</button>
         </form>
       </div>
@@ -62,18 +53,14 @@
       <div class="form">
         <a th:href="@{/post/newPost}"><button class="btn">Create New Post</button></a>
       </div>
-
       <div class="form">
         <a th:href="@{/post/drafts}"><button class="btn">Drafts</button></a>
       </div>
-
       <div class="form" sec:authorize="isAuthenticated()">
         <form th:action="@{/logout}" method="post">
           <button type="submit" id="logout" value="logout" class=" login-logout btn">Logout</button>
         </form>
-
       </div>
-
       <div class="form" sec:authorize="isAnonymous()">
         <a th:href="@{/login}" class="login-logout btn" th:text="'Login'"></a>
       </div>
@@ -81,37 +68,17 @@
   </div>
 
   <div class="filter-form">
-
-    <!--  +${pageNumber}-->
-
     <form th:action="@{'/page/' + ${pageNumber} + '/filter'}" method="GET">
       <h4 align="center">Filter Tags</h4>
       <input type="hidden" name="search" th:value="${search}">
       <input type="hidden" name="order" th:value="${order}">
       <select name="tagId" id="filter" class="form-control" multiple>
-        <!-- <option value="#" disabled>Filter Tags</option> -->
         <option th:each="tag: ${tagList}" th:if="${tag.name!=''}" th:value="${tag.id}" th:text="${tag.name}">
-
         </option>
-
       </select>
-
       <button id="filterButton" type="submit">Filter</button>
-
-
-      <!--    <select multiple>-->
-      <!--      <option value="">1</option>-->
-      <!--      <option value="">2</option>-->
-      <!--      <option value="">3</option>-->
-      <!--      <option value="">4</option>-->
-      <!--      <option value="">5</option>-->
-      <!--    </select>-->
-
-
     </form>
   </div>
-
-
   <main id="container-fluid">
     <div id="content-box">
       <div class="box card" th:each="post: ${postList}" th:if="${post.isPublished == true}">
@@ -121,29 +88,19 @@
             <b><i>
                 <p class="card-subtitle"><span
                     th:text="'Posted on ' + ${post.publishedAt.toString().split(' ')[0]}"></span>,
-                  <!--              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>-->
                   <span th:text="' by ' + ${post.author}"></span>
                 </p>
               </i></b>
             <i><span class="card-subtitle" th:each="tag: ${post.tags}" th:text="'#' + ${tag.name} + ' '"></span></i>
-            <p class="card-text" th:text="${post.excerpt}">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Delectus animi ea rem quaerat
-              totam facere saepe aperiam expedita! Repellendus velit labore quas, dolorum est consequuntur alias ex
-              aliquam amet soluta!</p>
+            <p class="card-text" th:text="${post.excerpt}"></p>
           </div>
         </a>
       </div>
     </div>
-
-
-
   </main>
 
   <div th:if="${totalPages > 1}">
     <div class="row col-sm-10">
-      <div class="col-sm-2">
-        <!--        Total Rows: [[${totalPosts}]]-->
-      </div>
       <div class="col-sm-1">
         <a class="btn previous" th:if="${pageNumber > 1}"
           th:href="@{'/page/' + ${pageNumber - 1} + '/filter' + '?search='+${search} + '&order=' + ${order} + ${requestParams}}">Previous</a>
@@ -163,7 +120,6 @@
       </div>
     </div>
   </div>
-
 </body>
 
 </html>

@@ -21,7 +21,6 @@
         <a th:href="@{/}">
           <h1>My Blog Application</h1>
         </a>
-        <!--        <span th:text ="${#authentication.getPrincipal().getUser()}"></span>-->
         <div sec:authorize="isAuthenticated()">Authenticated as <span sec:authentication="name"></span></div>
       </div>
       <div id="features">
@@ -32,7 +31,6 @@
             <button id="searchBtn" type="submit" class="btn">Search</button>
           </form>
         </div>
-
         <div id="sortForm" class="form">
           <form th:action="@{'/page/'+${pageNumber}}" method="GET">
             <input type="hidden" name="search" th:value="${search}" />
@@ -44,7 +42,6 @@
             <button id="sortButton" class="btn" type="submit">Sort</button>
           </form>
         </div>
-
         <div class="form">
           <a th:href="@{/post/newPost}"><button class="btn">Create New Post</button></a>
         </div>
@@ -53,63 +50,41 @@
           <form th:action="@{/logout}" method="post">
             <button type="submit" id="logout" value="logout" class=" login-logout btn">Logout</button>
           </form>
-
         </div>
-
         <div class="form" sec:authorize="isAnonymous()">
           <a th:href="@{/login}" class="login-logout btn" th:text="'Login'"></a>
         </div>
       </div>
     </div>
 
-    <!-- <div class="filter-form"> -->
-    <!--    +${pageNumber}-->
-    <!-- <form th:action="@{'/page/' + ${pageNumber} + '/filter'}" method="GET">
-        <h4 align="center">Filter Tags</h4>
-        <input type="hidden" name="search" th:value="${search}">
-        <input type="hidden" name="order" th:value="${order}">
-        <select name="tagId" id="filter" class="form-control" multiple> -->
-    <!-- <option value="#" disabled>Filter Tags</option> -->
-    <!-- <option th:each="tag: ${tagList}" th:if="${tag.name!=''}" th:value="${tag.id}" th:text="${tag.name}">
-          </option>
-
-        </select>
-        <button id="filterButton" type="submit">Filter</button>
-      </form>
-    </div>  -->
-
     <main id="container-fluid">
       <div id="content-box">
-        <div class="box card" th:each="post: ${postList}" th:if="${post.isPublished == false and post.author == currentUser}">
+        <div class="box card" th:each="post: ${postList}"
+          th:if="${post.isPublished == false and post.author == currentUser}">
           <a th:href="@{/post/{id}(id=${post.id})}">
             <div class="card-body">
               <h4 class="card-title" th:text="${post.title}"></h4>
               <b><i>
                   <p class="card-subtitle"><span
                       th:text="'Posted on ' + ${post.publishedAt.toString().split(' ')[0]}"></span>,
-                    <!--              <span th:text="${post.publishedAt.toString().split(' ')[0]}"></span>-->
                     <span th:text="' by ' + ${post.author}"></span>
                   </p>
                 </i></b>
-
               <i><span class="card-subtitle" th:each="tag: ${post.tags}" th:if="${tag.name != ''}"
                   th:text="'#' + ${tag.name} + ' '"></span></i>
               <p class="card-text" th:text="${post.excerpt}"></p>
             </div>
           </a>
         </div>
-
       </div>
     </main>
 
     <div th:if="${totalPages > 1}">
       <div class="row col-sm-10">
-        <div class="col-sm-2">
-          <!--        Total Rows: [[${totalPosts}]]-->
-        </div>
         <div class="col-sm-1">
           <a class="btn previous" th:if="${pageNumber > 1}"
-            th:href="@{'/post/drafts/page/' + ${pageNumber - 1} + '?search='+${search} + '&order=' + ${order}}">Previous</a>
+            th:href="@{'/post/drafts/page/' + ${pageNumber - 1} + '?search='+${search} + '&order=' + ${order}}">Previous
+          </a>
           <span th:unless="${pageNumber > 1}"><button class="btn previous">Previous</button></span>
         </div>
         <div class="col-sm-1">
@@ -124,13 +99,8 @@
             th:href="@{'/post/drafts/page/' + ${pageNumber + 1} + '?search='+${search} + '&order=' + ${order}}">Next</a>
           <span th:unless="${pageNumber < totalPages}"><button class="btn next"> Next </button></span>
         </div>
-        <!--      <div class="col-sm-1">-->
-        <!--        <a th:if="${pageNumber < totalPages}" th:href="@{'/post/page/' + ${totalPages}}">Last</a>-->
-        <!--        <span th:unless="${pageNumber < totalPages}">Last</span>-->
-        <!--      </div>-->
       </div>
     </div>
-
   </div>
 </body>
 

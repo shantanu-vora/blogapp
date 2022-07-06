@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -22,31 +22,26 @@
   </header>
 
   <form id="login-form" th:action="@{/registerUser}" th:object="${user}" method="post">
-
     <div th:if="${param.error}">
       Username or Email already exists
     </div>
-
     <div class="group">
       <label id="username-label" for="username">Username</label>
-      <input id="username" name="username" type="text" th:field="*{username}" class="control" placeholder="Enter your Username" required>
+      <input id="username" name="username" type="text" th:field="*{username}" class="control"
+        placeholder="Enter your Username" required>
     </div>
-
     <div class="group">
       <label id="email-label" for="email">Email</label>
-      <input id="email" name="email" type="email" th:field="*{email}" class="control" placeholder="Enter your Email" required>
+      <input id="email" name="email" type="email" th:field="*{email}" class="control" placeholder="Enter your Email"
+        required>
     </div>
-
     <div class="group">
       <label id="password-label" for="password">Password</label>
-      <input id="password" name="password" type="password" th:field="*{password}" class="control" placeholder="Enter your Password" required>
+      <input id="password" name="password" type="password" th:field="*{password}" class="control"
+        placeholder="Enter your Password" required>
     </div>
-
-
     <button type="submit" id="submit" class="submit-btn">Sign Up</button>
-
   </form>
-
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -20,13 +20,10 @@
       <h1 id="title">My Blog Application</h1>
     </div>
   </header>
-
   <form id="login-form" th:action="@{/login}" method="post">
-
     <div th:if="${param.error}">
       Invalid Username or Password
     </div>
-
     <div class="group">
       <label id="name-label" for="username">Username</label>
       <input id="username" name="username" type="text" class="control" placeholder="Enter your username" required>
@@ -35,15 +32,11 @@
       <label id="email-label" for="password">Password</label>
       <input id="password" name="password" type="password" class="control" placeholder="Enter your Password" required>
     </div>
-<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
     <div id="joinNow" class="group">
       <p>New to BlogApp? <span><a th:href="@{/signup}">Join now</a></span></p>
     </div>
-
     <button type="submit" id="submit" class="submit-btn">Login</button>
-
   </form>
-
 </body>
 
 </html>

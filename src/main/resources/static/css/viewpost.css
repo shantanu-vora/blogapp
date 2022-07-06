@@ -19,6 +19,7 @@ h1 {
 	text-align: center;
 	font-weight: 500;
 }
+
 .header {
 	display: flex;
 	justify-content: space-between;
@@ -33,10 +34,6 @@ h1 {
 	height: 2rem;
 	font-size: 1.25rem;
 }
-
-/* #editDeleteBtn form {
-	display: inline;
-} */
 
 #post-title {
 	font-size: x-large;
@@ -79,7 +76,6 @@ p {
 }
 
 .btn {
-	/* display: block; */
 	font-weight: 400;
 	text-align: center;
 	border: 1px solid #000;
@@ -112,7 +108,6 @@ a {
 
 #comment-list {
 	padding: 0 3rem 0 1.5rem;
-	/* border: 1px solid #000; */
 	justify-items: flex-start;
 	width: 70%;
 	height: 20rem;
@@ -147,7 +142,6 @@ ul p {
 
 .comment-form {
 	padding: 0 3rem;
-	/* border: 1px solid #000; */
 	width: 30%;
 	font-size: 0.9rem;
 }
@@ -156,9 +150,6 @@ ul p {
 	text-align: center;
 }
 
-/* .comment-form #form {
-	padding-left: 2rem;
-} */
 .form-group {
 	margin-bottom: 1rem;
 }
