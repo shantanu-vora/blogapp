@@ -1,11 +1,11 @@
 package com.shantanu.blogapp.service;
 
-import com.shantanu.blogapp.config.UserDetailsImpl;
 import com.shantanu.blogapp.entity.Comment;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -15,14 +15,22 @@ public class CommentServiceImpl implements CommentService{
 	@Autowired
 	private CommentRepository commentRepository;
 
+//	@Override
+//	public Comment addCommentDetails(Post post, Comment comment, UserDetailsImpl currentUser) {
+//		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+//		comment.setCreatedAt(currentTimestamp);
+//		if(currentUser != null) {
+//			comment.setName(currentUser.getUsername());
+//			comment.setEmail(currentUser.getEmail());
+//		}
+//		comment.setPostId(post.getId());
+//		return comment;
+//	}
+
 	@Override
-	public Comment addCommentDetails(Post post, Comment comment, UserDetailsImpl currentUser) {
+	public Comment addCommentDetails(Post post, Comment comment) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		comment.setCreatedAt(currentTimestamp);
-		if(currentUser != null) {
-			comment.setName(currentUser.getUsername());
-			comment.setEmail(currentUser.getEmail());
-		}
 		comment.setPostId(post.getId());
 		return comment;
 	}

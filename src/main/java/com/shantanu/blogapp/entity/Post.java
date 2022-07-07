@@ -38,6 +38,9 @@ public class Post {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
+	@Transient
+	private String tagString;
+
 	@ManyToMany(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(name="post_tag",
 						 joinColumns=@JoinColumn(name="post_id"),
@@ -119,6 +122,14 @@ public class Post {
 
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public String getTagString() {
+		return tagString;
+	}
+
+	public void setTagString(String tagString) {
+		this.tagString = tagString;
 	}
 
 	public List<Tag> getTags() {

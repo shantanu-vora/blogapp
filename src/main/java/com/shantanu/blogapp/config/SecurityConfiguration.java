@@ -20,10 +20,13 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-						.antMatchers("/post/newPost", "/post/edit/*", "/post/drafts/**").authenticated()
-						.antMatchers(HttpMethod.POST, "/post/delete/{id}").authenticated()
+//						.antMatchers("/post/newPost", "/post/edit/*", "/post/drafts/**").authenticated()
+//						.antMatchers(HttpMethod.POST, "/post/delete/{id}").authenticated()
+						.antMatchers("/post/newPost", "/post/edit/*", "/post/drafts/**").permitAll()
+						.antMatchers(HttpMethod.POST, "/post/delete/{id}").permitAll()
 						.antMatchers("/**").permitAll()
 						.and()
+						.csrf().disable()
 						.formLogin().loginPage("/login").defaultSuccessUrl("/")
 						.and().logout()
 						.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
