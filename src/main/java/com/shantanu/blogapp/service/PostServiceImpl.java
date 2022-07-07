@@ -65,7 +65,7 @@ public class PostServiceImpl implements PostService{
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		List<Comment> commentList = oldPost.getComments();
 		String username = oldPost.getAuthor();
-		post.setPublished(oldPost.isPublished());
+		post.setPublished(true);
 		setPostFields(post, username);
 		post.setCreatedAt(oldPost.getCreatedAt());
 		post.setPublishedAt(oldPost.getPublishedAt());
