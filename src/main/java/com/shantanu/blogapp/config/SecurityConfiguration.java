@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import java.security.SecureRandom;
 
 @EnableWebSecurity
@@ -19,16 +20,19 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-//						.antMatchers("/post/newPost", "/post/edit/*", "/post/drafts/**").authenticated()
-//						.antMatchers(HttpMethod.POST, "/post/delete/{id}").authenticated()
-						.antMatchers("/post/newPost", "/post/edit/*", "/post/drafts/**").permitAll()
-						.antMatchers(HttpMethod.POST, "/post/delete/{id}").permitAll()
+		http.csrf().disable()
+						.authorizeRequests()
+						.antMatchers(HttpMethod.POST, "/api/posts/*").authenticated()
+						.antMatchers(HttpMethod.PUT, "/api/posts/{id}", "/api/posts/{id}/comments/{commentId}").authenticated()
+						.antMatchers(HttpMethod.DELETE, "/api/posts/{id}", "/api/posts/{postId}/comments/{commentId}").authenticated()
+						.antMatchers("/post/newPost", "/post/edit/*", "/post/drafts/**").authenticated()
 						.antMatchers("/**").permitAll()
+						.anyRequest().authenticated()
 						.and()
-						.csrf().disable()
+						.httpBasic()
+						.and()
 						.formLogin().loginPage("/login").defaultSuccessUrl("/")
-						.and().logout()
+						.and().logout().invalidateHttpSession(true)
 						.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
 						return http.build();
 	}

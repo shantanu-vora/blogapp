@@ -14,12 +14,14 @@ public class UserDetailsImpl implements UserDetails {
 	private String username;
 	private String email;
 	private String password;
+	private String role;
 	private List<GrantedAuthority> authorities;
 
 	public UserDetailsImpl(User user) {
 		this.username = user.getUsername();
 		this.password = user.getPassword();
 		this.email =  user.getEmail();
+		this.role = user.getRole();
 		this.authorities = Arrays.stream(user.getRole().split(","))
 						.map(SimpleGrantedAuthority::new)
 						.collect(Collectors.toList());
@@ -42,6 +44,10 @@ public class UserDetailsImpl implements UserDetails {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getRole() {
+		return role;
 	}
 
 	@Override

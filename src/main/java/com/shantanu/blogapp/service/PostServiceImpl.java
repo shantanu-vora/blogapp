@@ -1,7 +1,9 @@
 package com.shantanu.blogapp.service;
 
+import com.shantanu.blogapp.entity.Comment;
 import com.shantanu.blogapp.entity.Post;
 import com.shantanu.blogapp.entity.Tag;
+import com.shantanu.blogapp.exception.CustomException;
 import com.shantanu.blogapp.repository.PostRepository;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -27,27 +28,12 @@ public class PostServiceImpl implements PostService{
 	@Autowired
 	private TagService tagService;
 
-//	@Override
-//	public void savePost(Post post, Tag tag, Principal principal) {
-//		String username = principal.getName();
-//		post.setPublished(true);
-//		setPostFields(post, username);
-//		enterTags(post, tag);
-//		try {
-//			postRepository.save(post);
-//		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	@Override
-	public void savePost(Post post) {
-		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		String username = "shantanu";
+	public void savePost(Post post, Tag tag, Principal principal) {
+		String username = principal.getName();
 		post.setPublished(true);
 		setPostFields(post, username);
-		enterTags(post);
-		System.out.println(post.getTagString());
+		enterTags(post, tag);
 		try {
 			postRepository.save(post);
 		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
@@ -55,6 +41,53 @@ public class PostServiceImpl implements PostService{
 		}
 	}
 
+	public void enterTags(Post post, Tag tag) {
+		List<String> tagsList = Arrays.asList(tag.getName().split(","));
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		for(String tagName: tagsList) {
+			Tag theTag = new Tag();
+			Tag newTag = tagService.getTagByName(tagName);
+			tag.getPosts().add(post);
+			if (newTag == null) {
+				theTag.setName(tagName);
+				theTag.setCreatedAt(currentTimestamp);
+				tagService.saveTag(theTag);
+				post.getTags().add(theTag);
+			} else {
+				post.getTags().add(newTag);
+			}
+		}
+	}
+
+	@Override
+	public void savePost(Post post, Principal principal) {
+		String username = principal.getName();
+		post.setPublished(true);
+		setPostFields(post, username);
+		enterTags(post);
+		try {
+			postRepository.save(post);
+		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void enterTags(Post post) {
+		List<String> tagsList = Arrays.asList(post.getTagString().split(","));
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		for(String tagName: tagsList) {
+			Tag newTag = new Tag();
+			Tag oldTag = tagService.getTagByName(tagName);
+			if (oldTag == null) {
+				newTag.setName(tagName);
+				newTag.setCreatedAt(currentTimestamp);
+				tagService.saveTag(newTag);
+				post.getTags().add(newTag);
+			} else {
+				post.getTags().add(oldTag);
+			}
+		}
+	}
 
 	@Override
 	public void saveDraft(Post post, Post oldPost, Tag tag, Principal principal) {
@@ -68,7 +101,7 @@ public class PostServiceImpl implements PostService{
 			post.setUpdatedAt(currentTimestamp);
 			post.setAuthor(oldPost.getAuthor());
 		}
-//		enterTags(post, tag);
+		enterTags(post, tag);
 		try {
 			postRepository.save(post);
 		} catch(ConstraintViolationException | DataIntegrityViolationException e) {
@@ -76,20 +109,20 @@ public class PostServiceImpl implements PostService{
 		}
 	}
 
-//	@Override
-//	public void updatePost(Post post, Tag tag, Post oldPost) {
-//		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-//		List<Comment> commentList = oldPost.getComments();
-//		String username = oldPost.getAuthor();
-//		post.setPublished(true);
-//		setPostFields(post, username);
-//		post.setCreatedAt(oldPost.getCreatedAt());
-//		post.setPublishedAt(oldPost.getPublishedAt());
-//		post.setUpdatedAt(currentTimestamp);
-//		post.setComments(commentList);
-////		enterTags(post, tag);
-//		postRepository.save(post);
-//	}
+	@Override
+	public void updatePost(Post post, Tag tag, Post oldPost) {
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		List<Comment> commentList = oldPost.getComments();
+		String username = oldPost.getAuthor();
+		post.setPublished(true);
+		setPostFields(post, username);
+		post.setCreatedAt(oldPost.getCreatedAt());
+		post.setPublishedAt(oldPost.getPublishedAt());
+		post.setUpdatedAt(currentTimestamp);
+		post.setComments(commentList);
+		enterTags(post, tag);
+		postRepository.save(post);
+	}
 
 	@Override
 	public void updatePost(Post post, Post oldPost) {
@@ -107,8 +140,6 @@ public class PostServiceImpl implements PostService{
 		postRepository.save(oldPost);
 	}
 
-
-
 	@Override
 	public void deletePost(Post post) {
 		postRepository.delete(post);
@@ -116,8 +147,8 @@ public class PostServiceImpl implements PostService{
 
 	void setPostFields(Post post, String username) {
 		String excerpt = post.getContent().length() < 150 ?
-										 post.getContent() :
-										 post.getContent().substring(0, 150)+"...";
+						post.getContent() :
+						post.getContent().substring(0, 150)+"...";
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		post.setAuthor(username);
 		post.setPublishedAt(currentTimestamp);
@@ -132,7 +163,7 @@ public class PostServiceImpl implements PostService{
 		if(optionalPost.isPresent()) {
 			post = optionalPost.get();
 		} else {
-			throw new RuntimeException("Did not find post id " + id);
+			throw new CustomException("Did not find post id " + id);
 		}
 		return post;
 	}
@@ -140,41 +171,6 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public void saveComment(Post post) {
 		postRepository.save(post);
-	}
-
-//	public void enterTags(Post post, Tag tag) {
-//		List<String> tagsList = Arrays.asList(tag.getName().split(","));
-//		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-//		for(String tagName: tagsList) {
-//			Tag theTag = new Tag();
-//			Tag newTag = tagService.getTagByName(tagName);
-//			tag.getPosts().add(post);
-//			if (newTag == null) {
-//				theTag.setName(tagName);
-//				theTag.setCreatedAt(currentTimestamp);
-//				tagService.saveTag(theTag);
-//				post.getTags().add(theTag);
-//			} else {
-//				post.getTags().add(newTag);
-//			}
-//		}
-//	}
-
-	public void enterTags(Post post) {
-		List<String> tagsList = Arrays.asList(post.getTagString().split(","));
-		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		for(String tagName: tagsList) {
-			Tag newTag = new Tag();
-			Tag oldTag = tagService.getTagByName(tagName);
-			if (oldTag == null) {
-				newTag.setName(tagName);
-				newTag.setCreatedAt(currentTimestamp);
-				tagService.saveTag(newTag);
-				post.getTags().add(newTag);
-			} else {
-				post.getTags().add(oldTag);
-			}
-		}
 	}
 
 	@Override
