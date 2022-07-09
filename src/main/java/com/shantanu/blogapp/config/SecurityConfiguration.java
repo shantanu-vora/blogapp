@@ -28,7 +28,7 @@ public class SecurityConfiguration {
 						.antMatchers(HttpMethod.PUT, "/api/posts/{id}", "/api/posts/{id}/comments/{commentId}").authenticated()
 						.antMatchers(HttpMethod.DELETE, "/api/posts/{id}", "/api/posts/{postId}/comments/{commentId}").authenticated()
 						.antMatchers("/post/newPost", "/post/edit/*", "/post/drafts/**").authenticated()
-						.antMatchers("/v3/api-docs","/v2/api-docs","/swagger-resources/","/swagger-ui/","/webjars/","/api/v1/auth/"). permitAll()qqq
+						.antMatchers("/v3/api-docs","/v2/api-docs","/swagger-resources/","/swagger-ui/","/webjars/","/api/v1/auth/"). permitAll()
 						.antMatchers("/**").permitAll()
 						.anyRequest().authenticated()
 						.and()
