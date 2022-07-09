@@ -64,7 +64,7 @@ public class RestPostController {
 			throw new CustomException("You are not authenticated");
 		}
 		if(!currentUser.getUsername().equals(postById.getAuthor()) && !currentUser.getRole().equals("ROLE_ADMIN")) {
-			throw new RuntimeException("You are not authorized to do this operation");
+			throw new CustomException("You are not authorized to do this operation");
 		}
 		postService.deletePost(postById);
 		return "post deleted";
