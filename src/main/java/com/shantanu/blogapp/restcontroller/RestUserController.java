@@ -1,6 +1,7 @@
 package com.shantanu.blogapp.restcontroller;
 
 import com.shantanu.blogapp.entity.User;
+import com.shantanu.blogapp.exception.CustomException;
 import com.shantanu.blogapp.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class RestUserController {
 	public String saveUserData(@RequestBody User user) {
 		Boolean isUserRegistered = userDetailService.saveUserDetails(user);
 		if(!isUserRegistered) {
-			return "Username or password already exists";
+			throw new CustomException("Username or password already exists");
 		} else {
 			return "User registered";
 		}
