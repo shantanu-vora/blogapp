@@ -39,7 +39,7 @@ public class RestHomeController {
 				tagIdList.add(tag.getId());
 			}
 		}
-		Page<Post> page = postService.getPaginatedPostsWithFilter(pageNumber, PAGE_SIZE, search, order, tagIdList);
+		Page<Post> page = postService.getPaginatedPostsWithFilter(pageNumber, PAGE_SIZE, search.toLowerCase(), order, tagIdList);
 		return page.getContent();
 	}
 }
