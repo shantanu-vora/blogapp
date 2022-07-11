@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class RestHomeController {
 
-	private static final int PAGE_SIZE = 15;
+	private static final int PAGE_SIZE = 10;
 
 	@Autowired
 	private PostService postService;
